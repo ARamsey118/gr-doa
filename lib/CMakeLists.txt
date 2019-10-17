@@ -22,8 +22,6 @@
 ########################################################################
 include(GrPlatform) #define LIB_SUFFIX
 
-include_directories(${Boost_INCLUDE_DIR})
-link_directories(${Boost_LIBRARY_DIRS})
 list(APPEND doa_sources
     autocorrelate_impl.cc
     MUSIC_lin_array_impl.cc
@@ -40,7 +38,11 @@ if(NOT doa_sources)
 endif(NOT doa_sources)
 
 add_library(gnuradio-doa SHARED ${doa_sources})
-target_link_libraries(gnuradio-doa ${Boost_LIBRARIES} ${GNURADIO_ALL_LIBRARIES} ${ARMADILLO_LIBRARIES})
+target_link_libraries(gnuradio-doa gnuradio::gnuradio-runtime ${ARMADILLO_LIBRARIES})
+target_include_directories(gnuradio-doa
+    PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include>
+    PUBLIC $<INSTALL_INTERFACE:include>
+  )
 set_target_properties(gnuradio-doa PROPERTIES DEFINE_SYMBOL "gnuradio_doa_EXPORTS")
 
 if(APPLE)
@@ -52,8 +54,35 @@ endif(APPLE)
 ########################################################################
 # Install built library files
 ########################################################################
-install(TARGETS gnuradio-doa
-    LIBRARY DESTINATION lib${LIB_SUFFIX} # .so/.dylib file
-    ARCHIVE DESTINATION lib${LIB_SUFFIX} # .lib file
-    RUNTIME DESTINATION bin              # .dll file
+include(GrMiscUtils)
+GR_LIBRARY_FOO(gnuradio-doa)
+
+########################################################################
+# Print summary
+########################################################################
+message(STATUS "Using install prefix: ${CMAKE_INSTALL_PREFIX}")
+message(STATUS "Building for version: ${VERSION} / ${LIBVER}")
+
+########################################################################
+# Build and register unit test
+########################################################################
+include(GrTest)
+
+# If your unit tests require special include paths, add them here
+#include_directories()
+# List all files that contain Boost.UTF unit tests here
+list(APPEND test_doa_sources
 )
+# Anything we need to link to for the unit tests go here
+list(APPEND GR_TEST_TARGET_DEPS gnuradio-doa)
+
+if(NOT test_doa_sources)
+    MESSAGE(STATUS "No C++ unit tests... skipping")
+    return()
+endif(NOT test_doa_sources)
+
+foreach(qa_file ${test_doa_sources})
+    GR_ADD_CPP_TEST("doa_${qa_file}"
+        ${CMAKE_CURRENT_SOURCE_DIR}/${qa_file}
+    )
+endforeach(qa_file)

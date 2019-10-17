@@ -1,714 +1,238 @@
-<?xml version='1.0' encoding='utf-8'?>
-<?grc format='1' created='3.7.10'?>
-<flow_graph>
-  <timestamp>Thu Aug 11 16:28:58 2016</timestamp>
-  <block>
-    <key>options</key>
-    <param>
-      <key>author</key>
-      <value></value>
-    </param>
-    <param>
-      <key>window_size</key>
-      <value></value>
-    </param>
-    <param>
-      <key>category</key>
-      <value>[GRC Hier Blocks]</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>description</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(40, 24)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>generate_options</key>
-      <value>qt_gui</value>
-    </param>
-    <param>
-      <key>hier_block_src_path</key>
-      <value>.:</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>run_RootMUSIC_lin_array_X310_TwinRX</value>
-    </param>
-    <param>
-      <key>max_nouts</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>qt_qss_theme</key>
-      <value></value>
-    </param>
-    <param>
-      <key>realtime_scheduling</key>
-      <value></value>
-    </param>
-    <param>
-      <key>run_command</key>
-      <value>{python} -u {filename}</value>
-    </param>
-    <param>
-      <key>run_options</key>
-      <value>prompt</value>
-    </param>
-    <param>
-      <key>run</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>thread_safe_setters</key>
-      <value></value>
-    </param>
-    <param>
-      <key>title</key>
-      <value></value>
-    </param>
-  </block>
-  <block>
-    <key>variable_struct</key>
-    <param>
-      <key>value11</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>value12</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>value13</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>value14</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>value15</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>value16</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>value17</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>value18</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>value19</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>value2</key>
-      <value>2450000000</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value>input_variables: 
-Contains all the user-defined variables.</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>field0</key>
-      <value>ToneFreq</value>
-    </param>
-    <param>
-      <key>field1</key>
-      <value>SampleRate</value>
-    </param>
-    <param>
-      <key>field10</key>
-      <value>PSpectrumLength</value>
-    </param>
-    <param>
-      <key>field11</key>
-      <value></value>
-    </param>
-    <param>
-      <key>field12</key>
-      <value></value>
-    </param>
-    <param>
-      <key>field13</key>
-      <value></value>
-    </param>
-    <param>
-      <key>field14</key>
-      <value></value>
-    </param>
-    <param>
-      <key>field15</key>
-      <value></value>
-    </param>
-    <param>
-      <key>field16</key>
-      <value></value>
-    </param>
-    <param>
-      <key>field17</key>
-      <value></value>
-    </param>
-    <param>
-      <key>field18</key>
-      <value></value>
-    </param>
-    <param>
-      <key>field19</key>
-      <value></value>
-    </param>
-    <param>
-      <key>field2</key>
-      <value>CenterFreq</value>
-    </param>
-    <param>
-      <key>field3</key>
-      <value>RxAddr</value>
-    </param>
-    <param>
-      <key>field4</key>
-      <value>Gain</value>
-    </param>
-    <param>
-      <key>field5</key>
-      <value>NumArrayElements</value>
-    </param>
-    <param>
-      <key>field6</key>
-      <value>NormSpacing</value>
-    </param>
-    <param>
-      <key>field7</key>
-      <value>SnapshotSize</value>
-    </param>
-    <param>
-      <key>field8</key>
-      <value>OverlapSize</value>
-    </param>
-    <param>
-      <key>field9</key>
-      <value>NumTargets</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(240, 24)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>value4</key>
-      <value>60</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>input_variables</value>
-    </param>
-    <param>
-      <key>value6</key>
-      <value>0.5</value>
-    </param>
-    <param>
-      <key>value5</key>
-      <value>4</value>
-    </param>
-    <param>
-      <key>value9</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>value8</key>
-      <value>2**9</value>
-    </param>
-    <param>
-      <key>value10</key>
-      <value>2**10</value>
-    </param>
-    <param>
-      <key>value3</key>
-      <value>"addr=192.168.10.2"</value>
-    </param>
-    <param>
-      <key>value1</key>
-      <value>1000000</value>
-    </param>
-    <param>
-      <key>value7</key>
-      <value>2**11</value>
-    </param>
-    <param>
-      <key>value0</key>
-      <value>10000</value>
-    </param>
-  </block>
-  <block>
-    <key>doa_autocorrelate</key>
-    <param>
-      <key>avg_method</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(488, 320)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>doa_autocorrelate_0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>inputs</key>
-      <value>input_variables.NumArrayElements</value>
-    </param>
-    <param>
-      <key>overlap_size</key>
-      <value>input_variables.OverlapSize</value>
-    </param>
-    <param>
-      <key>snapshot_size</key>
-      <value>input_variables.SnapshotSize</value>
-    </param>
-  </block>
-  <block>
-    <key>doa_qt_compass</key>
-    <param>
-      <key>arc_bias</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(992, 328)</value>
-    </param>
-    <param>
-      <key>gui_hint</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>doa_qt_compass_0</value>
-    </param>
-    <param>
-      <key>max_val</key>
-      <value>180</value>
-    </param>
-    <param>
-      <key>min_val</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>name</key>
-      <value>""</value>
-    </param>
-    <param>
-      <key>step</key>
-      <value>10</value>
-    </param>
-    <param>
-      <key>update_time</key>
-      <value>0.10</value>
-    </param>
-  </block>
-  <block>
-    <key>doa_rootMUSIC_linear_array</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(768, 352)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>doa_rootMUSIC_linear_array_0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>norm_spacing</key>
-      <value>input_variables.NormSpacing</value>
-    </param>
-    <param>
-      <key>inputs</key>
-      <value>input_variables.NumArrayElements</value>
-    </param>
-    <param>
-      <key>num_targets</key>
-      <value>input_variables.NumTargets</value>
-    </param>
-  </block>
-  <block>
-    <key>phase_correct_hier</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>config_filename</key>
-      <value>/tmp/measure_X310_TwinRX_phase_offsets_245.cfg</value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(272, 320)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>phase_correct_hier_1</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>num_ports</key>
-      <value>input_variables.NumArrayElements</value>
-    </param>
-  </block>
-  <block>
-    <key>qtgui_tab_widget</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(416, 24)</value>
-    </param>
-    <param>
-      <key>gui_hint</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>tab</value>
-    </param>
-    <param>
-      <key>label0</key>
-      <value>Angle of Arrival</value>
-    </param>
-    <param>
-      <key>label1</key>
-      <value></value>
-    </param>
-    <param>
-      <key>label10</key>
-      <value>Tab 10</value>
-    </param>
-    <param>
-      <key>label11</key>
-      <value>Tab 11</value>
-    </param>
-    <param>
-      <key>label12</key>
-      <value>Tab 12</value>
-    </param>
-    <param>
-      <key>label13</key>
-      <value>Tab 13</value>
-    </param>
-    <param>
-      <key>label14</key>
-      <value>Tab 14</value>
-    </param>
-    <param>
-      <key>label15</key>
-      <value>Tab 15</value>
-    </param>
-    <param>
-      <key>label16</key>
-      <value>Tab 16</value>
-    </param>
-    <param>
-      <key>label17</key>
-      <value>Tab 17</value>
-    </param>
-    <param>
-      <key>label18</key>
-      <value>Tab 18</value>
-    </param>
-    <param>
-      <key>label19</key>
-      <value>Tab 19</value>
-    </param>
-    <param>
-      <key>label2</key>
-      <value>Tab 2</value>
-    </param>
-    <param>
-      <key>label3</key>
-      <value>Tab 3</value>
-    </param>
-    <param>
-      <key>label4</key>
-      <value>Tab 4</value>
-    </param>
-    <param>
-      <key>label5</key>
-      <value>Tab 5</value>
-    </param>
-    <param>
-      <key>label6</key>
-      <value>Tab 6</value>
-    </param>
-    <param>
-      <key>label7</key>
-      <value>Tab 7</value>
-    </param>
-    <param>
-      <key>label8</key>
-      <value>Tab 8</value>
-    </param>
-    <param>
-      <key>label9</key>
-      <value>Tab 9</value>
-    </param>
-    <param>
-      <key>num_tabs</key>
-      <value>1</value>
-    </param>
-  </block>
-  <block>
-    <key>twinrx_usrp_source</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>center_freq</key>
-      <value>input_variables.CenterFreq</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>addresses</key>
-      <value>input_variables.RxAddr</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(40, 320)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>gain</key>
-      <value>input_variables.Gain</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>twinrx_usrp_source_0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>sources</key>
-      <value>input_variables.NumArrayElements</value>
-    </param>
-    <param>
-      <key>samp_rate</key>
-      <value>input_variables.SampleRate</value>
-    </param>
-  </block>
-  <connection>
-    <source_block_id>doa_autocorrelate_0</source_block_id>
-    <sink_block_id>doa_rootMUSIC_linear_array_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>doa_rootMUSIC_linear_array_0</source_block_id>
-    <sink_block_id>doa_qt_compass_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>phase_correct_hier_1</source_block_id>
-    <sink_block_id>doa_autocorrelate_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>phase_correct_hier_1</source_block_id>
-    <sink_block_id>doa_autocorrelate_0</sink_block_id>
-    <source_key>1</source_key>
-    <sink_key>1</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>phase_correct_hier_1</source_block_id>
-    <sink_block_id>doa_autocorrelate_0</sink_block_id>
-    <source_key>2</source_key>
-    <sink_key>2</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>phase_correct_hier_1</source_block_id>
-    <sink_block_id>doa_autocorrelate_0</sink_block_id>
-    <source_key>3</source_key>
-    <sink_key>3</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>twinrx_usrp_source_0</source_block_id>
-    <sink_block_id>phase_correct_hier_1</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>twinrx_usrp_source_0</source_block_id>
-    <sink_block_id>phase_correct_hier_1</sink_block_id>
-    <source_key>1</source_key>
-    <sink_key>1</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>twinrx_usrp_source_0</source_block_id>
-    <sink_block_id>phase_correct_hier_1</sink_block_id>
-    <source_key>2</source_key>
-    <sink_key>2</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>twinrx_usrp_source_0</source_block_id>
-    <sink_block_id>phase_correct_hier_1</sink_block_id>
-    <source_key>3</source_key>
-    <sink_key>3</sink_key>
-  </connection>
-</flow_graph>
+options:
+  parameters:
+    author: ''
+    category: '[GRC Hier Blocks]'
+    cmake_opt: ''
+    comment: ''
+    copyright: ''
+    description: ''
+    gen_cmake: 'On'
+    gen_linking: dynamic
+    generate_options: qt_gui
+    hier_block_src_path: '.:'
+    id: run_RootMUSIC_lin_array_X310_TwinRX
+    max_nouts: '0'
+    output_language: python
+    placement: (0,0)
+    qt_qss_theme: ''
+    realtime_scheduling: ''
+    run: 'True'
+    run_command: '{python} -u {filename}'
+    run_options: prompt
+    sizing_mode: fixed
+    thread_safe_setters: ''
+    title: ''
+    window_size: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [40, 24]
+    rotation: 0
+    state: enabled
+
+blocks:
+- name: doa_autocorrelate_0
+  id: doa_autocorrelate
+  parameters:
+    affinity: ''
+    alias: ''
+    avg_method: '1'
+    comment: ''
+    inputs: input_variables.NumArrayElements
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    overlap_size: input_variables.OverlapSize
+    snapshot_size: input_variables.SnapshotSize
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [488, 328.0]
+    rotation: 0
+    state: enabled
+- name: doa_phase_correct_hier_1
+  id: doa_phase_correct_hier
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    config_filename: /tmp/measure_X310_TwinRX_phase_offsets_245.cfg
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_ports: input_variables.NumArrayElements
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [272, 328.0]
+    rotation: 0
+    state: enabled
+- name: doa_qt_compass_0
+  id: doa_qt_compass
+  parameters:
+    affinity: ''
+    alias: ''
+    arc_bias: '0'
+    comment: ''
+    gui_hint: ''
+    max_val: '180'
+    min_val: '0'
+    name: '""'
+    step: '10'
+    update_time: '0.10'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [984, 340.0]
+    rotation: 0
+    state: enabled
+- name: doa_rootMUSIC_linear_array_0
+  id: doa_rootMUSIC_linear_array
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    inputs: input_variables.NumArrayElements
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    norm_spacing: input_variables.NormSpacing
+    num_targets: input_variables.NumTargets
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [760, 356.0]
+    rotation: 0
+    state: enabled
+- name: doa_twinrx_usrp_source_0
+  id: doa_twinrx_usrp_source
+  parameters:
+    addresses: input_variables.RxAddr
+    affinity: ''
+    alias: ''
+    center_freq: input_variables.CenterFreq
+    comment: ''
+    gain: input_variables.Gain
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samp_rate: input_variables.SampleRate
+    sources: input_variables.NumArrayElements
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [40, 328.0]
+    rotation: 0
+    state: enabled
+- name: input_variables
+  id: epy_module
+  parameters:
+    alias: ''
+    comment: 'input_variables:
+
+      Contains all the user-defined variables.'
+    source_code: '# this module will be imported into your flowgraph
+
+      import os
+
+      ToneFreq = 10000
+
+      SampleRate = 1000000
+
+      CenterFreq = 2450000000
+
+      RxAddr = "addr=192.168.20.3"
+
+      TxAddr = "addr=192.168.20.3"
+
+      Gain = 60
+
+      NumArrayElements = 4
+
+      NormSpacing = 0.5
+
+      PilotAngle = 45
+
+      SnapshotSize = 2**11
+
+      Samples2FindMax = 2**11
+
+      Samples2Avg = 2**11
+
+      OverlapSize = 2**9
+
+      SkipAhead = 2**13
+
+      NumTargets = 1
+
+      PSpectrumLength = 2**10
+
+      home = os.path.expanduser("~")
+
+      DirectoryConfigFiles = os.path.join(home, "devel/localization_fulbright/config/")
+
+      RelativePhaseOffsets = "measure_X310_TwinRX_relative_phase_offsets_245.cfg"
+
+      CorrectedPhaseOffsets = "measure_X310_TwinRX_corrected_phase_offsets_245.cfg"
+
+      AntennaCalibration = "calibration_lin_array_245.cfg"
+
+      '
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [224, 28.0]
+    rotation: 0
+    state: enabled
+- name: tab
+  id: qtgui_tab_widget
+  parameters:
+    alias: ''
+    comment: ''
+    gui_hint: ''
+    label0: Angle of Arrival
+    label1: ''
+    label10: Tab 10
+    label11: Tab 11
+    label12: Tab 12
+    label13: Tab 13
+    label14: Tab 14
+    label15: Tab 15
+    label16: Tab 16
+    label17: Tab 17
+    label18: Tab 18
+    label19: Tab 19
+    label2: Tab 2
+    label3: Tab 3
+    label4: Tab 4
+    label5: Tab 5
+    label6: Tab 6
+    label7: Tab 7
+    label8: Tab 8
+    label9: Tab 9
+    num_tabs: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [456, 12.0]
+    rotation: 0
+    state: enabled
+
+connections:
+- [doa_autocorrelate_0, '0', doa_rootMUSIC_linear_array_0, '0']
+- [doa_phase_correct_hier_1, '0', doa_autocorrelate_0, '0']
+- [doa_phase_correct_hier_1, '1', doa_autocorrelate_0, '1']
+- [doa_phase_correct_hier_1, '2', doa_autocorrelate_0, '2']
+- [doa_phase_correct_hier_1, '3', doa_autocorrelate_0, '3']
+- [doa_rootMUSIC_linear_array_0, '0', doa_qt_compass_0, '0']
+- [doa_twinrx_usrp_source_0, '0', doa_phase_correct_hier_1, '0']
+- [doa_twinrx_usrp_source_0, '1', doa_phase_correct_hier_1, '1']
+- [doa_twinrx_usrp_source_0, '2', doa_phase_correct_hier_1, '2']
+- [doa_twinrx_usrp_source_0, '3', doa_phase_correct_hier_1, '3']
+
+metadata:
+  file_format: 1

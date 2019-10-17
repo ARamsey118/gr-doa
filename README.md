@@ -40,6 +40,14 @@ across the receive streams.
 `$ sudo make install` <br />
 `$ sudo ldconfig` <br />
 
+## With PyBOMBS
+Install GNU Radio using PyBOMBS first
+
+`$ sudo apt install python3-pyqt5.qwt` <br />
+`$ pybombs -p ~/prefix config -P gr-doa source git+/path/to/repo` <br />
+`$ pybombs install gr-doa` <br />
+
+
 ### Documentation
  - For a concise description of the steps involved: `https://github.com/EttusResearch/gr-doa/wiki`
  - For details about the blocks available

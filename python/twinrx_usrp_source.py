@@ -52,19 +52,19 @@ class twinrx_usrp_source(gr.hier_block2):
         # Blocks
         ##################################################
         self.uhd_usrp_source_0 = uhd.usrp_source(
-        	",".join((self.addresses, "")),
-        	uhd.stream_args(
-        		cpu_format="fc32",
-        		channels=range(sources),
-        	),
+                ",".join((self.addresses, "")),
+                uhd.stream_args(
+                        cpu_format="fc32",
+                        channels=range(sources),
+                ),
         )
 
-	self.uhd_usrp_source_0.set_clock_source('internal', 0)
-	subdevs = 'A:0 A:1 B:0 B:1'.split(' ')
+        self.uhd_usrp_source_0.set_clock_source('internal', 0)
+        subdevs = 'A:0 A:1 B:0 B:1'.split(' ')
         self.uhd_usrp_source_0.set_subdev_spec(' '.join(subdevs[:sources]), 0)
         self.uhd_usrp_source_0.set_samp_rate(samp_rate)
         self.uhd_usrp_source_0.set_time_unknown_pps(uhd.time_spec())
-	# Set channel specific settings
+        # Set channel specific settings
         self.uhd_usrp_source_0.set_gain(gain, 0)
         self.uhd_usrp_source_0.set_lo_export_enabled(True, uhd.ALL_LOS, 0)
         self.uhd_usrp_source_0.set_lo_source('internal', uhd.ALL_LOS, 0)
@@ -72,18 +72,18 @@ class twinrx_usrp_source(gr.hier_block2):
         self.uhd_usrp_source_0.set_gain(gain, 1)
         self.uhd_usrp_source_0.set_lo_source('companion', uhd.ALL_LOS, 1)
         self.uhd_usrp_source_0.set_auto_dc_offset(True, 1)
-	# Config second board
-	if sources==4:
-		self.uhd_usrp_source_0.set_gain(gain, 2)
-		self.uhd_usrp_source_0.set_lo_source('external', uhd.ALL_LOS, 2)
-		self.uhd_usrp_source_0.set_auto_dc_offset(True, 2)
-		self.uhd_usrp_source_0.set_gain(gain, 3)
-		self.uhd_usrp_source_0.set_lo_source('external', uhd.ALL_LOS, 3)
-		self.uhd_usrp_source_0.set_auto_dc_offset(True, 3)
+        # Config second board
+        if sources==4:
+                self.uhd_usrp_source_0.set_gain(gain, 2)
+                self.uhd_usrp_source_0.set_lo_source('external', uhd.ALL_LOS, 2)
+                self.uhd_usrp_source_0.set_auto_dc_offset(True, 2)
+                self.uhd_usrp_source_0.set_gain(gain, 3)
+                self.uhd_usrp_source_0.set_lo_source('external', uhd.ALL_LOS, 3)
+                self.uhd_usrp_source_0.set_auto_dc_offset(True, 3)
 
-	# Use timed commands to set frequencies
-     	self.set_center_freq(center_freq,sources)
-  
+        # Use timed commands to set frequencies
+        self.set_center_freq(center_freq,sources)
+
         ##################################################
         # Connections
         ##################################################
@@ -98,9 +98,9 @@ class twinrx_usrp_source(gr.hier_block2):
         self.uhd_usrp_source_0.set_samp_rate(self.samp_rate)
 
     def set_center_freq(self, center_freq, sources):
-	# Tune all channels to the desired frequency
+        # Tune all channels to the desired frequency
         tune_resp = self.uhd_usrp_source_0.set_center_freq(center_freq, 0)
-        tune_req = uhd.tune_request(rf_freq=center_freq, rf_freq_policy=uhd.tune_request.POLICY_MANUAL, 
+        tune_req = uhd.tune_request(rf_freq=center_freq, rf_freq_policy=uhd.tune_request.POLICY_MANUAL,
                dsp_freq=tune_resp.actual_dsp_freq, dsp_freq_policy=uhd.tune_request.POLICY_MANUAL)
 
         self.uhd_usrp_source_0.set_center_freq(tune_req, 1)
@@ -108,7 +108,7 @@ class twinrx_usrp_source(gr.hier_block2):
             self.uhd_usrp_source_0.set_center_freq(tune_req, 2)
             self.uhd_usrp_source_0.set_center_freq(tune_req, 3)
 
-	# Synchronize the tuned channels
+        # Synchronize the tuned channels
         now = self.uhd_usrp_source_0.get_time_now()
         self.uhd_usrp_source_0.set_command_time(now + uhd.time_spec(0.01))
 
@@ -128,7 +128,7 @@ class twinrx_usrp_source(gr.hier_block2):
         return self.gain
 
     def set_gain(self, gain):
-        print "DO NOT TUNE GAINS DURING RUNTIME"
+        print("DO NOT TUNE GAINS DURING RUNTIME")
 
     def get_sources(self):
         return self.sources
