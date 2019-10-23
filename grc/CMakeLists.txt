@@ -19,6 +19,7 @@
 install(FILES
     doa_phase_correct_hier.block.yml
     doa_twinrx_usrp_source.block.yml
+    doa_tworx_usrp_source.block.yml
     doa_autocorrelate.block.yml
     doa_MUSIC_lin_array.block.yml
     doa_average_and_save.block.yml
