@@ -44,28 +44,6 @@ blocks:
     coordinate: [712, 128]
     rotation: 0
     state: enabled
-- name: analog_sig_source_x_0
-  id: analog_sig_source_x
-  parameters:
-    affinity: ''
-    alias: ''
-    amp: '1'
-    comment: ''
-    freq: '1000'
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    offset: '0'
-    phase: '0'
-    samp_rate: input_variables.SampleRate
-    type: complex
-    waveform: analog.GR_COS_WAVE
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [232, 500.0]
-    rotation: 0
-    state: true
 - name: doa_phase_correct_hier_1
   id: doa_phase_correct_hier
   parameters:
@@ -83,12 +61,13 @@ blocks:
     coordinate: [536, 304]
     rotation: 0
     state: enabled
-- name: doa_twinrx_usrp_source_0
-  id: doa_twinrx_usrp_source
+- name: doa_tworx_usrp_source_0
+  id: doa_tworx_usrp_source
   parameters:
-    addresses: input_variables.RxAddr
+    addresses: '"addr0=192.168.20.3, addr1=192.168.110.2"'
     affinity: ''
     alias: ''
+    antenna: TX/RX
     center_freq: input_variables.CenterFreq
     comment: ''
     gain: input_variables.Gain
@@ -100,9 +79,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [304, 304.0]
+    coordinate: [283, 304]
     rotation: 0
-    state: disabled
+    state: true
 - name: import
   id: import
   parameters:
@@ -231,7 +210,7 @@ blocks:
     marker8: '-1'
     marker9: '-1'
     name: '""'
-    nconnections: input_variables.NumArrayElements
+    nconnections: '4'
     size: '256'
     srate: input_variables.SampleRate
     stemplot: 'False'
@@ -276,18 +255,14 @@ blocks:
     state: enabled
 
 connections:
-- [analog_sig_source_x_0, '0', doa_phase_correct_hier_1, '0']
-- [analog_sig_source_x_0, '0', doa_phase_correct_hier_1, '1']
-- [analog_sig_source_x_0, '0', doa_phase_correct_hier_1, '2']
-- [analog_sig_source_x_0, '0', doa_phase_correct_hier_1, '3']
 - [doa_phase_correct_hier_1, '0', qtgui_time_sink_x_0, '0']
 - [doa_phase_correct_hier_1, '1', qtgui_time_sink_x_0, '1']
 - [doa_phase_correct_hier_1, '2', qtgui_time_sink_x_0, '2']
 - [doa_phase_correct_hier_1, '3', qtgui_time_sink_x_0, '3']
-- [doa_twinrx_usrp_source_0, '0', doa_phase_correct_hier_1, '0']
-- [doa_twinrx_usrp_source_0, '1', doa_phase_correct_hier_1, '1']
-- [doa_twinrx_usrp_source_0, '2', doa_phase_correct_hier_1, '2']
-- [doa_twinrx_usrp_source_0, '3', doa_phase_correct_hier_1, '3']
+- [doa_tworx_usrp_source_0, '0', doa_phase_correct_hier_1, '0']
+- [doa_tworx_usrp_source_0, '1', doa_phase_correct_hier_1, '1']
+- [doa_tworx_usrp_source_0, '2', doa_phase_correct_hier_1, '2']
+- [doa_tworx_usrp_source_0, '3', doa_phase_correct_hier_1, '3']
 
 metadata:
   file_format: 1

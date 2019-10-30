@@ -8,7 +8,6 @@ parameters:
 -   id: num_inputs
     label: Num Inputs
     dtype: int
-    hide: ${ 'part' if vlen == 1 else 'none' }
 -   id: samples_to_average
     label: Samples To Average
     dtype: int

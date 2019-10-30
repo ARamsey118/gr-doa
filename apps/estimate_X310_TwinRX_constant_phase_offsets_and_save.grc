@@ -57,7 +57,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [864, 328.0]
+    coordinate: [887, 328]
     rotation: 0
     state: enabled
 - name: doa_twinrx_phase_offset_est_0
@@ -74,15 +74,16 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [616, 312.0]
+    coordinate: [616, 312]
     rotation: 0
     state: enabled
-- name: doa_twinrx_usrp_source_0
-  id: doa_twinrx_usrp_source
+- name: doa_tworx_usrp_source_0
+  id: doa_tworx_usrp_source
   parameters:
-    addresses: input_variables.RxAddr
+    addresses: '"addr0=192.168.20.3, addr1=192.168.110.2"'
     affinity: ''
     alias: ''
+    antenna: TX/RX
     center_freq: input_variables.CenterFreq
     comment: ''
     gain: input_variables.Gain
@@ -94,9 +95,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [384, 312.0]
+    coordinate: [332, 313]
     rotation: 0
-    state: enabled
+    state: true
 - name: import
   id: import
   parameters:
@@ -128,6 +129,8 @@ blocks:
       CenterFreq = 2450000000
 
       RxAddr = "addr=192.168.20.3"
+
+      RxAddr1 = "addr=192.168.110.2"
 
       TxAddr = "addr=192.168.20.3"
 
@@ -176,10 +179,10 @@ connections:
 - [doa_twinrx_phase_offset_est_0, '0', doa_findmax_and_save_0, '0']
 - [doa_twinrx_phase_offset_est_0, '1', doa_findmax_and_save_0, '1']
 - [doa_twinrx_phase_offset_est_0, '2', doa_findmax_and_save_0, '2']
-- [doa_twinrx_usrp_source_0, '0', doa_twinrx_phase_offset_est_0, '0']
-- [doa_twinrx_usrp_source_0, '1', doa_twinrx_phase_offset_est_0, '1']
-- [doa_twinrx_usrp_source_0, '2', doa_twinrx_phase_offset_est_0, '2']
-- [doa_twinrx_usrp_source_0, '3', doa_twinrx_phase_offset_est_0, '3']
+- [doa_tworx_usrp_source_0, '0', doa_twinrx_phase_offset_est_0, '0']
+- [doa_tworx_usrp_source_0, '1', doa_twinrx_phase_offset_est_0, '1']
+- [doa_tworx_usrp_source_0, '2', doa_twinrx_phase_offset_est_0, '2']
+- [doa_tworx_usrp_source_0, '3', doa_twinrx_phase_offset_est_0, '3']
 
 metadata:
   file_format: 1

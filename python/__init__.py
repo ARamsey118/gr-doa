@@ -36,6 +36,7 @@ from .average_and_save import average_and_save
 from .phase_correct_hier import phase_correct_hier
 from .compass import compass
 from .twinrx_usrp_source import twinrx_usrp_source
+from .tworx_usrp_source import tworx_usrp_source
 from .save_antenna_calib import save_antenna_calib
 from .twinrx_phase_offset_est import twinrx_phase_offset_est
 from .findmax_and_save import findmax_and_save
