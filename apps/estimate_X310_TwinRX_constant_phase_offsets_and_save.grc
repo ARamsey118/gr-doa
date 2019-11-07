@@ -80,9 +80,10 @@ blocks:
 - name: doa_tworx_usrp_source_0
   id: doa_tworx_usrp_source
   parameters:
-    addresses: '"addr0=192.168.20.3"'
+    addresses: '"addr0=192.168.20.3, addr1=192.168.110.2"'
     affinity: ''
     alias: ''
+    antenna: TX/RX
     center_freq: input_variables.CenterFreq
     comment: ''
     gain: input_variables.Gain

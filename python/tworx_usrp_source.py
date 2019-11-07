@@ -130,6 +130,13 @@ class tworx_usrp_source(gr.hier_block2):
         self.msg_connect((self, 'command'), (self.uhd_usrp_source_0, 'command'))
         self.msg_connect((self, 'command'), (self.handle_messages, 'command'))
 
+        if self.antenna != "Toggle":
+            now = self.uhd_usrp_source_0.get_time_now()
+            cmd = uhd.stream_cmd(uhd.stream_cmd.STREAM_MODE_START_CONTINUOUS)
+            cmd.stream_now = False
+            cmd.time_spec = now + uhd.time_spec(1)
+            self.uhd_usrp_source_0.issue_stream_cmd(cmd)
+
     def get_samp_rate(self):
         return self.samp_rate
 

@@ -34,8 +34,6 @@ parameters:
     options: [TX/RX, RX2, Toggle]
     option_labels: [TX/RX, RX2, Toggle]
     default: RX2
-
-
 outputs:
 -   domain: stream
     dtype: complex
@@ -66,6 +64,6 @@ templates:
 documentation: "This block is a wrapper to the USRP source block when using two X310\
     \ with 2 UBX daughtercards. \nArgs:\n$samp_rate: Sample rate\n$center_freq: Center\
     \ frequency\n$gain: Gain to be applied\n$sources: Number of input streams\n$address0:\
-    \ Device address\n$address1: Device address"
+    \ Device address\n$address1: Device address\n$antenna: Antenna input to use"
 
 file_format: 1
