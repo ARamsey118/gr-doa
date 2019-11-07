@@ -38,7 +38,7 @@ parameters:
     label: Number of Samples
     dtype: int
     default: 1000
-    hide: ${('all' if antenna != "Toggle")}
+    hide: ${ ('all' if antenna != "Toggle" else 'part') }
 inputs:
 -   domain: message
     id: command
