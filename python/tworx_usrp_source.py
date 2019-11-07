@@ -44,7 +44,7 @@ class hier_msg_handler(gr.sync_block):
 
 class tworx_usrp_source(gr.hier_block2):
 
-    def __init__(self, samp_rate=1000000, center_freq=2400000000, gain=40, sources=4, addresses="addr0=192.168.10.2, addr1=192.168.20.3", antenna="RX2"):
+    def __init__(self, samp_rate=1000000, center_freq=2400000000, gain=40, sources=4, addresses="addr0=192.168.10.2, addr1=192.168.20.3", antenna="RX2", num_samps=1000):
         gr.hier_block2.__init__(
             self, "TwoRx USRP",
             gr.io_signature(0, 0, 0),
@@ -59,6 +59,7 @@ class tworx_usrp_source(gr.hier_block2):
         self.gain = gain
         self.sources = sources
         self.addresses = addresses
+        self.num_samps = num_samps
         if antenna == "Toggle":
             self.toggle = True
             self.antenna = "RX2"

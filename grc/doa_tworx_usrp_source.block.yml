@@ -34,6 +34,11 @@ parameters:
     options: [TX/RX, RX2, Toggle]
     option_labels: [TX/RX, RX2, Toggle]
     default: RX2
+-   id: num_samps
+    label: Number of Samples
+    dtype: int
+    default: 1000
+    hide: ${('all' if antenna != "Toggle")}
 inputs:
 -   domain: message
     id: command
