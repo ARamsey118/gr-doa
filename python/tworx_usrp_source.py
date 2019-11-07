@@ -190,8 +190,8 @@ class tworx_usrp_source(gr.hier_block2):
         self.sources = sources
 
     def msg_handler(self, msg):
-        if pmt.dict_has_key(msg, pmt.intern("antenna")) and \
-                pmt.dict_has_key(msg, pmt.intern("time")):
+        if pmt.dict_has_key(msg, pmt.intern("antenna")): #and \
+            #pmt.dict_has_key(msg, pmt.intern("time")):
             cmd = uhd.stream_cmd_t(uhd.stream_cmd_t.STREAM_MODE_NUM_SAMPS_AND_DONE)
             cmd.num_samps = self.num_samps
             cmd.time_spec = pmt.dict_ref(msg, pmt.intern("time"), None)
