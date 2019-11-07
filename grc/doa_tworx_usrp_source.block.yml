@@ -34,6 +34,10 @@ parameters:
     options: [TX/RX, RX2, Toggle]
     option_labels: [TX/RX, RX2, Toggle]
     default: RX2
+inputs:
+-   domain: message
+    id: command
+    optional: true
 outputs:
 -   domain: stream
     dtype: complex

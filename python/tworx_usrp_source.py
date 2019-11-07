@@ -59,13 +59,18 @@ class tworx_usrp_source(gr.hier_block2):
         self.gain = gain
         self.sources = sources
         self.addresses = addresses
-        self.antenna = antenna
+        if self.antenna == "Toggle":
+            self.toggle = True
+            self.antenna = "RX2"
+        else:
+            self.toggle = False
+            self.antenna = antenna
         self.msg_port = "command"
 
         ##################################################
         # Blocks
         ##################################################
-        if self.antenna == "Toggle":
+        if self.toggle:
             issue_stream_cmd_on_start=False
         else:
             issue_stream_cmd_on_start=True
@@ -130,7 +135,7 @@ class tworx_usrp_source(gr.hier_block2):
         self.msg_connect((self, 'command'), (self.uhd_usrp_source_0, 'command'))
         self.msg_connect((self, 'command'), (self.handle_messages, 'command'))
 
-        if self.antenna != "Toggle":
+        if not self.toggle:
             now = self.uhd_usrp_source_0.get_time_now()
             cmd = uhd.stream_cmd(uhd.stream_cmd.STREAM_MODE_START_CONTINUOUS)
             cmd.stream_now = False
