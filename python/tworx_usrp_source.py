@@ -59,7 +59,7 @@ class tworx_usrp_source(gr.hier_block2):
         self.gain = gain
         self.sources = sources
         self.addresses = addresses
-        if self.antenna == "Toggle":
+        if antenna == "Toggle":
             self.toggle = True
             self.antenna = "RX2"
         else:
