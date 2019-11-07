@@ -106,10 +106,10 @@ blocks:
     coordinate: [760, 356.0]
     rotation: 0
     state: enabled
-- name: doa_twinrx_usrp_source_0
-  id: doa_twinrx_usrp_source
+- name: doa_tworx_usrp_source_0
+  id: doa_tworx_usrp_source
   parameters:
-    addresses: input_variables.RxAddr
+    addresses: '"addr0=192.168.20.3"'
     affinity: ''
     alias: ''
     center_freq: input_variables.CenterFreq
@@ -123,9 +123,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [40, 328.0]
+    coordinate: [48, 328.0]
     rotation: 0
-    state: enabled
+    state: true
 - name: input_variables
   id: epy_module
   parameters:
@@ -149,7 +149,7 @@ blocks:
 
       Gain = 60
 
-      NumArrayElements = 4
+      NumArrayElements = 2
 
       NormSpacing = 0.5
 
@@ -226,13 +226,9 @@ connections:
 - [doa_autocorrelate_0, '0', doa_rootMUSIC_linear_array_0, '0']
 - [doa_phase_correct_hier_1, '0', doa_autocorrelate_0, '0']
 - [doa_phase_correct_hier_1, '1', doa_autocorrelate_0, '1']
-- [doa_phase_correct_hier_1, '2', doa_autocorrelate_0, '2']
-- [doa_phase_correct_hier_1, '3', doa_autocorrelate_0, '3']
 - [doa_rootMUSIC_linear_array_0, '0', doa_qt_compass_0, '0']
-- [doa_twinrx_usrp_source_0, '0', doa_phase_correct_hier_1, '0']
-- [doa_twinrx_usrp_source_0, '1', doa_phase_correct_hier_1, '1']
-- [doa_twinrx_usrp_source_0, '2', doa_phase_correct_hier_1, '2']
-- [doa_twinrx_usrp_source_0, '3', doa_phase_correct_hier_1, '3']
+- [doa_tworx_usrp_source_0, '0', doa_phase_correct_hier_1, '0']
+- [doa_tworx_usrp_source_0, '1', doa_phase_correct_hier_1, '1']
 
 metadata:
   file_format: 1
