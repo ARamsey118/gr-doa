@@ -22,6 +22,7 @@ from gnuradio import gr
 from gnuradio import uhd
 from gnuradio.filter import firdes
 import pmt
+from threading import Thread
 import time
 
 def gen_sig_io(num_elements):
@@ -32,19 +33,55 @@ def gen_sig_io(num_elements):
     io.append(gr.sizeof_float*num_elements)
     return io
 
-class hier_msg_handler(gr.sync_block):
-    def __init__(self, msg_handler):
-        gr.sync_block.__init__(self, "Msg Handler",
-            in_sig=None,
-            out_sig=None,
-        )
-        self.msg_port = "command"
-        self.message_port_register_in(pmt.intern(self.msg_port))
-        self.set_msg_handler(pmt.intern(self.msg_port), msg_handler)
+class msg_strobe(gr.basic_block):
+    def __init__(self, msgs, periods, add_time=False, get_time=None, extra_cmd=None):
+        gr.basic_block.__init__(self, "Msg", None, None)
+        self.finished = False
+        if len(msgs) != len(periods):
+            raise Exception("Message array length must match periods")
+        self.msgs = msgs
+        self.periods = periods
+        self.msg_num = 0
+        self.msg_port = pmt.intern("command")
+        self.message_port_register_out(self.msg_port)
+        self.thread = None
+        if add_time:
+            self.get_time = get_time
+        self.extra_cmd = extra_cmd
+
+
+    def start(self):
+        self.finished = False
+        self.thread = Thread(target = self.run)
+        self.thread.start()
+        return True
+
+    def run(self):
+        while not self.finished:
+            time.sleep(self.periods[self.msg_num])
+            if self.finished:
+                return
+            msg = self.msgs[self.msg_num]
+            timespec = self.get_time() + uhd.time_spec(0.1)
+            pmt_time = pmt.cons(
+                    pmt.from_long(timespec.get_full_secs()),
+                    pmt.from_double(timespec.get_frac_secs())
+                    )
+
+            msg = pmt.dict_add(msg, pmt.intern("time"), pmt_time)
+            self.message_port_pub(self.msg_port, msg)
+            if self.extra_cmd:
+                self.extra_cmd(timespec)
+            self.msg_num = (self.msg_num + 1) % len(self.msgs)
+
+    def stop(self):
+        self.finished = True
+        self.thread.join()
+        return True
 
 class tworx_usrp_source(gr.hier_block2):
 
-    def __init__(self, samp_rate=1000000, center_freq=2400000000, gain=40, sources=4, addresses="addr0=192.168.10.2, addr1=192.168.20.3", antenna="RX2", num_samps=1000):
+    def __init__(self, samp_rate=1000000, center_freq=2400000000, gain=40, sources=4, addresses="addr0=192.168.10.2, addr1=192.168.20.3", antenna="RX2", num_samps=100000):
         gr.hier_block2.__init__(
             self, "TwoRx USRP",
             gr.io_signature(0, 0, 0),
@@ -60,40 +97,36 @@ class tworx_usrp_source(gr.hier_block2):
         self.sources = sources
         self.addresses = addresses
         self.num_samps = num_samps
+        # Dumb hack for desk debugging TODO remove
+        if self.sources == 4:
+            clk_time_src = 'external'
+            subdevs = 'A:0 B:0'
+            antenna_list = ["RX2", "TX/RX"]
+        else:
+            clk_time_src = 'internal'
+            subdevs = 'A:AB B:AB'
+            antenna_list = ["A", "B"]
+
         if antenna == "Toggle":
             self.toggle = True
-            self.antenna = "RX2"
+            self.antenna = antenna_list[0]
         else:
             self.toggle = False
-            self.antenna = antenna
+            self.antenna = "A"
         self.msg_port = "command"
 
         ##################################################
         # Blocks
         ##################################################
-        if self.toggle:
-            issue_stream_cmd_on_start=False
-        else:
-            issue_stream_cmd_on_start=True
         self.uhd_usrp_source_0 = uhd.usrp_source(
                 ",".join((self.addresses, "")),
                 uhd.stream_args(
                         cpu_format="fc32",
                         channels=range(self.sources),
                 ),
-                issue_stream_cmd_on_start=issue_stream_cmd_on_start,
+                issue_stream_cmd_on_start=False,
         )
-        self.handle_messages = hier_msg_handler(self.msg_handler)
 
-        self.message_port_register_hier_in("command")
-
-        # Dumb hack for desk debugging TODO remove
-        if self.sources == 4:
-            clk_time_src = 'external'
-            subdevs = 'A:0 B:0'
-        else:
-            clk_time_src = 'internal'
-            subdevs = 'A:AB B:AB'
 
         self.uhd_usrp_source_0.set_clock_source(clk_time_src, 0)
         self.uhd_usrp_source_0.set_time_source(clk_time_src, 0)
@@ -133,10 +166,18 @@ class tworx_usrp_source(gr.hier_block2):
         ##################################################
         for source in range(self.sources):
             self.connect((self.uhd_usrp_source_0, source), (self, source))
-        self.msg_connect((self, 'command'), (self.uhd_usrp_source_0, 'command'))
-        self.msg_connect((self, 'command'), (self.handle_messages, 'command'))
-
-        if not self.toggle:
+        if self.toggle:
+            msgs = list()
+            for ant in antenna_list:
+                msg = pmt.make_dict()
+                msg = pmt.dict_add(msg, pmt.intern("antenna"), pmt.intern(ant))
+                msgs.append(msg)
+            periods = [0.5, 0.5]
+            self.gen_msgs = msg_strobe(msgs=msgs, periods=periods, add_time=True,
+                                       get_time=self.uhd_usrp_source_0.get_time_now,
+                                       extra_cmd=self.stream_samps)
+            self.msg_connect((self.gen_msgs, 'command'), (self.uhd_usrp_source_0, 'command'))
+        else:
             now = self.uhd_usrp_source_0.get_time_now()
             cmd = uhd.stream_cmd(uhd.stream_cmd.STREAM_MODE_START_CONTINUOUS)
             cmd.stream_now = False
@@ -190,11 +231,9 @@ class tworx_usrp_source(gr.hier_block2):
     def set_sources(self, sources):
         self.sources = sources
 
-    def msg_handler(self, msg):
-        if pmt.dict_has_key(msg, pmt.intern("antenna")): #and \
-            #pmt.dict_has_key(msg, pmt.intern("time")):
-            cmd = uhd.stream_cmd_t(uhd.stream_cmd_t.STREAM_MODE_NUM_SAMPS_AND_DONE)
-            cmd.num_samps = self.num_samps
-            # cmd.time_spec = pmt.dict_ref(msg, pmt.intern("time"), None)
-            self.uhd_usrp_source_0.issue_stream_cmd(cmd)
+    def stream_samps(self, timespec):
+        cmd = uhd.stream_cmd_t(uhd.stream_cmd_t.STREAM_MODE_NUM_SAMPS_AND_DONE)
+        cmd.num_samps = self.num_samps
+        cmd.time_spec = timespec
+        self.uhd_usrp_source_0.issue_stream_cmd(cmd)
 
