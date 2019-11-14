@@ -124,13 +124,14 @@ class tworx_usrp_source(gr.hier_block2):
         ##################################################
         # Blocks
         ##################################################
+        issue_stream_cmd_on_start = not self.toggle
         self.uhd_usrp_source_0 = uhd.usrp_source(
                 ",".join((self.addresses, "")),
                 uhd.stream_args(
                         cpu_format="fc32",
                         channels=range(self.usrp_sources),
                 ),
-                issue_stream_cmd_on_start=False,
+                issue_stream_cmd_on_start=issue_stream_cmd_on_start,
         )
         if self.toggle:
             msgs = list()
@@ -192,11 +193,6 @@ class tworx_usrp_source(gr.hier_block2):
         else:
             for source in range(self.usrp_sources):
                 self.connect((self.uhd_usrp_source_0, source), (self, source))
-            now = self.uhd_usrp_source_0.get_time_now()
-            cmd = uhd.stream_cmd(uhd.stream_cmd.STREAM_MODE_START_CONTINUOUS)
-            cmd.stream_now = False
-            cmd.time_spec = now + uhd.time_spec(1)
-            self.uhd_usrp_source_0.issue_stream_cmd(cmd)
 
     def get_samp_rate(self):
         return self.samp_rate
@@ -240,7 +236,6 @@ class tworx_usrp_source(gr.hier_block2):
 
     def stream_samps(self, timespec):
         for sel in self.selectors:
-            print(self.gen_msgs.msg_num)
             sel.set_output_index(self.gen_msgs.msg_num)
         cmd = uhd.stream_cmd_t(uhd.stream_cmd_t.STREAM_MODE_NUM_SAMPS_AND_DONE)
         cmd.num_samps = self.num_samps

@@ -38,7 +38,7 @@ parameters:
     label: Number of Samples
     dtype: int
     default: 1000
-    hide: ${ ('all' if antenna != "Toggle" else 'part') }
+    hide: ${ ('all' if antenna != "Toggle" else 'none') }
 outputs:
 -   domain: stream
     dtype: complex
@@ -59,6 +59,7 @@ templates:
             sources=${sources},
             addresses=${addresses},
             antenna=${antenna},
+            num_samps=${num_samps},
         )
     callbacks:
     - set_samp_rate(${samp_rate})
