@@ -39,15 +39,11 @@ parameters:
     dtype: int
     default: 1000
     hide: ${ ('all' if antenna != "Toggle" else 'part') }
-inputs:
--   domain: message
-    id: command
-    optional: true
 outputs:
 -   domain: stream
     dtype: complex
     vlen: 1
-    multiplicity: ${ sources }
+    multiplicity: ${ sources if antenna != "Toggle" else sources * 2}
 asserts:
 - ${ sources > 1 }
 - ${ sources != 3 }

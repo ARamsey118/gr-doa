@@ -18,6 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from gnuradio import blocks
 from gnuradio import gr
 from gnuradio import uhd
 from gnuradio.filter import firdes
@@ -72,6 +73,7 @@ class msg_strobe(gr.basic_block):
             self.message_port_pub(self.msg_port, msg)
             if self.extra_cmd:
                 self.extra_cmd(timespec)
+            # Needs to be updated after extra_cmd called
             self.msg_num = (self.msg_num + 1) % len(self.msgs)
 
     def stop(self):
@@ -82,10 +84,30 @@ class msg_strobe(gr.basic_block):
 class tworx_usrp_source(gr.hier_block2):
 
     def __init__(self, samp_rate=1000000, center_freq=2400000000, gain=40, sources=4, addresses="addr0=192.168.10.2, addr1=192.168.20.3", antenna="RX2", num_samps=100000):
+
+
+        if sources == 2:
+            clk_time_src = 'internal'
+            subdevs = 'A:AB B:AB'
+            antenna_list = ["A", "B"]
+        else:
+            clk_time_src = 'external'
+            subdevs = 'A:0 B:0'
+            antenna_list = ["RX2", "TX/RX"]
+        self.usrp_sources = sources
+        if antenna == "Toggle":
+            self.toggle = True
+            self.antenna = antenna_list[0]
+            self.output_sources = sources * 2
+        else:
+            self.toggle = False
+            self.antenna = antenna
+            self.output_sources = sources
+
         gr.hier_block2.__init__(
             self, "TwoRx USRP",
             gr.io_signature(0, 0, 0),
-            gr.io_signaturev(sources, sources, gen_sig_io(sources)),
+            gr.io_signaturev(self.output_sources, self.output_sources, gen_sig_io(self.output_sources)),
         )
 
         ##################################################
@@ -94,25 +116,9 @@ class tworx_usrp_source(gr.hier_block2):
         self.samp_rate = samp_rate
         self.center_freq = center_freq
         self.gain = gain
-        self.sources = sources
         self.addresses = addresses
         self.num_samps = num_samps
-        # Dumb hack for desk debugging TODO remove
-        if self.sources == 4:
-            clk_time_src = 'external'
-            subdevs = 'A:0 B:0'
-            antenna_list = ["RX2", "TX/RX"]
-        else:
-            clk_time_src = 'internal'
-            subdevs = 'A:AB B:AB'
-            antenna_list = ["A", "B"]
 
-        if antenna == "Toggle":
-            self.toggle = True
-            self.antenna = antenna_list[0]
-        else:
-            self.toggle = False
-            self.antenna = "A"
         self.msg_port = "command"
 
         ##################################################
@@ -122,15 +128,28 @@ class tworx_usrp_source(gr.hier_block2):
                 ",".join((self.addresses, "")),
                 uhd.stream_args(
                         cpu_format="fc32",
-                        channels=range(self.sources),
+                        channels=range(self.usrp_sources),
                 ),
                 issue_stream_cmd_on_start=False,
         )
+        if self.toggle:
+            msgs = list()
+            for ant in antenna_list:
+                msg = pmt.make_dict()
+                msg = pmt.dict_add(msg, pmt.intern("antenna"), pmt.intern(ant))
+                msgs.append(msg)
+            periods = [0.5, 0.5]
+            self.gen_msgs = msg_strobe(msgs=msgs, periods=periods, add_time=True,
+                                       get_time=self.uhd_usrp_source_0.get_time_now,
+                                       extra_cmd=self.stream_samps)
+            self.selectors = list()
+            for _ in range(self.usrp_sources):
+                self.selectors.append(blocks.selector(gr.sizeof_gr_complex, 0, 0))
 
 
         self.uhd_usrp_source_0.set_clock_source(clk_time_src, 0)
         self.uhd_usrp_source_0.set_time_source(clk_time_src, 0)
-        if self.sources == 4:
+        if self.usrp_sources == 4:
             self.uhd_usrp_source_0.set_clock_source(clk_time_src, 1)
             self.uhd_usrp_source_0.set_time_source(clk_time_src, 1)
         time.sleep(1)  # Let clocks settle
@@ -138,21 +157,20 @@ class tworx_usrp_source(gr.hier_block2):
         time.sleep(1)  # Let clocks settle
         self.uhd_usrp_source_0.set_samp_rate(samp_rate)
         self.uhd_usrp_source_0.set_subdev_spec(subdevs, 0)
-        if self.sources == 4:
+        if self.usrp_sources == 4:
             self.uhd_usrp_source_0.set_subdev_spec(subdevs, 1)
         self.uhd_usrp_source_0.set_antenna(self.antenna, 0)
         self.uhd_usrp_source_0.set_antenna(self.antenna, 1)
-        if self.sources == 4:
+        if self.usrp_sources == 4:
             self.uhd_usrp_source_0.set_antenna(self.antenna, 2)
             self.uhd_usrp_source_0.set_antenna(self.antenna, 3)
-
 
         # Set channel specific settings
         self.uhd_usrp_source_0.set_gain(gain, 0)
         self.uhd_usrp_source_0.set_auto_dc_offset(True, 0)
         self.uhd_usrp_source_0.set_gain(gain, 1)
         self.uhd_usrp_source_0.set_auto_dc_offset(True, 1)
-        if self.sources == 4:
+        if self.usrp_sources == 4:
             self.uhd_usrp_source_0.set_gain(gain, 2)
             self.uhd_usrp_source_0.set_auto_dc_offset(True, 2)
             self.uhd_usrp_source_0.set_gain(gain, 3)
@@ -164,20 +182,16 @@ class tworx_usrp_source(gr.hier_block2):
         ##################################################
         # Connections
         ##################################################
-        for source in range(self.sources):
-            self.connect((self.uhd_usrp_source_0, source), (self, source))
         if self.toggle:
-            msgs = list()
-            for ant in antenna_list:
-                msg = pmt.make_dict()
-                msg = pmt.dict_add(msg, pmt.intern("antenna"), pmt.intern(ant))
-                msgs.append(msg)
-            periods = [0.5, 0.5]
-            self.gen_msgs = msg_strobe(msgs=msgs, periods=periods, add_time=True,
-                                       get_time=self.uhd_usrp_source_0.get_time_now,
-                                       extra_cmd=self.stream_samps)
+            for source in range(self.usrp_sources):
+                self.connect((self.uhd_usrp_source_0, source), (self.selectors[source], 0))
+                self.selectors[source].set_enabled(True)
+                self.connect((self.selectors[source], 0), (self, source))
+                self.connect((self.selectors[source], 1), (self, self.usrp_sources + source))
             self.msg_connect((self.gen_msgs, 'command'), (self.uhd_usrp_source_0, 'command'))
         else:
+            for source in range(self.usrp_sources):
+                self.connect((self.uhd_usrp_source_0, source), (self, source))
             now = self.uhd_usrp_source_0.get_time_now()
             cmd = uhd.stream_cmd(uhd.stream_cmd.STREAM_MODE_START_CONTINUOUS)
             cmd.stream_now = False
@@ -199,7 +213,7 @@ class tworx_usrp_source(gr.hier_block2):
                dsp_freq=tune_resp.actual_dsp_freq, dsp_freq_policy=uhd.tune_request.POLICY_MANUAL)
 
         self.uhd_usrp_source_0.set_center_freq(tune_req, 1)
-        if self.sources==4:
+        if self.usrp_sources==4:
             self.uhd_usrp_source_0.set_center_freq(tune_req, 2)
             self.uhd_usrp_source_0.set_center_freq(tune_req, 3)
 
@@ -209,7 +223,7 @@ class tworx_usrp_source(gr.hier_block2):
 
         self.uhd_usrp_source_0.set_center_freq(tune_req, 0)
         self.uhd_usrp_source_0.set_center_freq(tune_req, 1)
-        if self.sources==4:
+        if self.usrp_sources==4:
             self.uhd_usrp_source_0.set_center_freq(tune_req, 2)
             self.uhd_usrp_source_0.set_center_freq(tune_req, 3)
 
@@ -218,20 +232,16 @@ class tworx_usrp_source(gr.hier_block2):
     def get_center_freq(self):
         return self.center_freq
 
-
     def get_gain(self):
         return self.gain
 
     def set_gain(self, gain):
         print("DO NOT TUNE GAINS DURING RUNTIME")
 
-    def get_sources(self):
-        return self.sources
-
-    def set_sources(self, sources):
-        self.sources = sources
-
     def stream_samps(self, timespec):
+        for sel in self.selectors:
+            print(self.gen_msgs.msg_num)
+            sel.set_output_index(self.gen_msgs.msg_num)
         cmd = uhd.stream_cmd_t(uhd.stream_cmd_t.STREAM_MODE_NUM_SAMPS_AND_DONE)
         cmd.num_samps = self.num_samps
         cmd.time_spec = timespec
