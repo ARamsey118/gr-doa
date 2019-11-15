@@ -39,6 +39,12 @@ parameters:
     dtype: int
     default: 1000
     hide: ${ ('all' if antenna != "Toggle" else 'none') }
+-   id: bus_structure_source
+    label: Bus Connections
+    dtype: raw
+    default: '[[0,],]'
+    hide: part
+
 outputs:
 -   domain: stream
     dtype: complex
