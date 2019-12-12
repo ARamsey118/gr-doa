@@ -41,24 +41,107 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [712, 128]
+    coordinate: [468, 166]
     rotation: 0
     state: enabled
+- name: taps
+  id: variable_band_pass_filter_taps
+  parameters:
+    beta: '6.76'
+    comment: ''
+    gain: '1.0'
+    high_cutoff_freq: 18e3
+    low_cutoff_freq: 12e3
+    samp_rate: input_variables.SampleRate
+    type: complex_band_pass
+    width: 1e3
+    win: firdes.WIN_HAMMING
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [488, 416]
+    rotation: 0
+    state: true
+- name: blocks_complex_to_real_0
+  id: blocks_complex_to_real
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [972, 274]
+    rotation: 0
+    state: true
+- name: blocks_complex_to_real_0_0
+  id: blocks_complex_to_real
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [977, 327]
+    rotation: 0
+    state: true
+- name: blocks_complex_to_real_0_0_0
+  id: blocks_complex_to_real
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [974, 377]
+    rotation: 0
+    state: true
+- name: blocks_complex_to_real_0_0_0_0
+  id: blocks_complex_to_real
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [975, 434]
+    rotation: 0
+    state: true
 - name: doa_phase_correct_hier_1
   id: doa_phase_correct_hier
   parameters:
     affinity: ''
     alias: ''
     comment: ''
-    config_filename: rel_phase_offsets_file_name
+    config_filename: rel_phase_offsets_file_name + "horz" + input_variables.ConfigFileExt
     maxoutbuf: '0'
     minoutbuf: '0'
     num_ports: input_variables.NumArrayElements
   states:
-    bus_sink: false
+    bus_sink: true
     bus_source: false
     bus_structure: null
-    coordinate: [536, 304]
+    coordinate: [477, 261]
     rotation: 0
     state: enabled
 - name: doa_tworx_usrp_source_0
@@ -68,18 +151,96 @@ blocks:
     affinity: ''
     alias: ''
     antenna: TX/RX
+    bus_structure_source: '[[0,1,2,3,],]'
     center_freq: input_variables.CenterFreq
     comment: ''
     gain: input_variables.Gain
     maxoutbuf: '0'
     minoutbuf: '0'
+    num_samps: '1000'
     samp_rate: input_variables.SampleRate
     sources: input_variables.NumArrayElements
   states:
     bus_sink: false
+    bus_source: true
+    bus_structure: null
+    coordinate: [84, 208]
+    rotation: 0
+    state: true
+- name: fir_filter_xxx_0
+  id: fir_filter_xxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    decim: '1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samp_delay: '0'
+    taps: taps
+    type: ccc
+  states:
+    bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [283, 304]
+    coordinate: [777, 236]
+    rotation: 0
+    state: true
+- name: fir_filter_xxx_0_0
+  id: fir_filter_xxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    decim: '1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samp_delay: '0'
+    taps: taps
+    type: ccc
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [778, 299]
+    rotation: 0
+    state: true
+- name: fir_filter_xxx_0_0_0
+  id: fir_filter_xxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    decim: '1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samp_delay: '0'
+    taps: taps
+    type: ccc
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [779, 362]
+    rotation: 0
+    state: true
+- name: fir_filter_xxx_0_0_0_0
+  id: fir_filter_xxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    decim: '1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samp_delay: '0'
+    taps: taps
+    type: ccc
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [780, 426]
     rotation: 0
     state: true
 - name: import
@@ -108,7 +269,7 @@ blocks:
 
       ToneFreq = 10000
 
-      SampleRate = 1000000
+      SampleRate = 100000
 
       CenterFreq = 2450000000
 
@@ -142,11 +303,13 @@ blocks:
 
       DirectoryConfigFiles = os.path.join(home, "devel/localization_fulbright/config/")
 
-      RelativePhaseOffsets = "measure_X310_TwinRX_relative_phase_offsets_245.cfg"
+      ConfigFileExt = ".cfg"
 
-      CorrectedPhaseOffsets = "measure_X310_TwinRX_corrected_phase_offsets_245.cfg"
+      RelativePhaseOffsets = "measure_X310_TwinRX_relative_phase_offsets_245_"
 
-      AntennaCalibration = "calibration_lin_array_245.cfg"
+      CorrectedPhaseOffsets = "measure_X310_TwinRX_corrected_phase_offsets_245_"
+
+      AntennaCalibration = "calibration_lin_array_245_"
 
       '
   states:
@@ -156,6 +319,86 @@ blocks:
     coordinate: [320, 32]
     rotation: 0
     state: enabled
+- name: qtgui_freq_sink_x_0
+  id: qtgui_freq_sink_x
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha1: '1.0'
+    alpha10: '1.0'
+    alpha2: '1.0'
+    alpha3: '1.0'
+    alpha4: '1.0'
+    alpha5: '1.0'
+    alpha6: '1.0'
+    alpha7: '1.0'
+    alpha8: '1.0'
+    alpha9: '1.0'
+    autoscale: 'False'
+    average: '1.0'
+    axislabels: 'True'
+    bw: input_variables.SampleRate
+    color1: '"blue"'
+    color10: '"dark blue"'
+    color2: '"red"'
+    color3: '"green"'
+    color4: '"black"'
+    color5: '"cyan"'
+    color6: '"magenta"'
+    color7: '"yellow"'
+    color8: '"dark red"'
+    color9: '"dark green"'
+    comment: ''
+    ctrlpanel: 'False'
+    fc: '0'
+    fftsize: '1024'
+    freqhalf: 'True'
+    grid: 'False'
+    gui_hint: ''
+    label: Relative Gain
+    label1: ''
+    label10: ''''''
+    label2: ''''''
+    label3: ''''''
+    label4: ''''''
+    label5: ''''''
+    label6: ''''''
+    label7: ''''''
+    label8: ''''''
+    label9: ''''''
+    legend: 'True'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    name: '""'
+    nconnections: '2'
+    showports: 'False'
+    tr_chan: '0'
+    tr_level: '0.0'
+    tr_mode: qtgui.TRIG_MODE_FREE
+    tr_tag: '""'
+    type: complex
+    units: dB
+    update_time: '0.10'
+    width1: '1'
+    width10: '1'
+    width2: '1'
+    width3: '1'
+    width4: '1'
+    width5: '1'
+    width6: '1'
+    width7: '1'
+    width8: '1'
+    width9: '1'
+    wintype: firdes.WIN_BLACKMAN_hARRIS
+    ymax: '10'
+    ymin: '-140'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1081, 137]
+    rotation: 0
+    state: true
 - name: qtgui_time_sink_x_0
   id: qtgui_time_sink_x
   parameters:
@@ -230,7 +473,7 @@ blocks:
     tr_mode: qtgui.TRIG_MODE_FREE
     tr_slope: qtgui.TRIG_SLOPE_POS
     tr_tag: '""'
-    type: complex
+    type: float
     update_time: '0.5'
     width1: '1'
     width10: '1'
@@ -250,19 +493,26 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [776, 304]
+    coordinate: [1142, 317]
     rotation: 0
     state: enabled
 
 connections:
-- [doa_phase_correct_hier_1, '0', qtgui_time_sink_x_0, '0']
-- [doa_phase_correct_hier_1, '1', qtgui_time_sink_x_0, '1']
-- [doa_phase_correct_hier_1, '2', qtgui_time_sink_x_0, '2']
-- [doa_phase_correct_hier_1, '3', qtgui_time_sink_x_0, '3']
-- [doa_tworx_usrp_source_0, '0', doa_phase_correct_hier_1, '0']
-- [doa_tworx_usrp_source_0, '1', doa_phase_correct_hier_1, '1']
-- [doa_tworx_usrp_source_0, '2', doa_phase_correct_hier_1, '2']
-- [doa_tworx_usrp_source_0, '3', doa_phase_correct_hier_1, '3']
+- [blocks_complex_to_real_0, '0', qtgui_time_sink_x_0, '0']
+- [blocks_complex_to_real_0_0, '0', qtgui_time_sink_x_0, '1']
+- [blocks_complex_to_real_0_0_0, '0', qtgui_time_sink_x_0, '2']
+- [blocks_complex_to_real_0_0_0_0, '0', qtgui_time_sink_x_0, '3']
+- [doa_phase_correct_hier_1, '0', fir_filter_xxx_0, '0']
+- [doa_phase_correct_hier_1, '0', qtgui_freq_sink_x_0, '0']
+- [doa_phase_correct_hier_1, '1', fir_filter_xxx_0_0, '0']
+- [doa_phase_correct_hier_1, '2', fir_filter_xxx_0_0_0, '0']
+- [doa_phase_correct_hier_1, '3', fir_filter_xxx_0_0_0_0, '0']
+- [doa_tworx_usrp_source_0, '4', doa_phase_correct_hier_1, '4']
+- [fir_filter_xxx_0, '0', blocks_complex_to_real_0, '0']
+- [fir_filter_xxx_0, '0', qtgui_freq_sink_x_0, '1']
+- [fir_filter_xxx_0_0, '0', blocks_complex_to_real_0_0, '0']
+- [fir_filter_xxx_0_0_0, '0', blocks_complex_to_real_0_0_0, '0']
+- [fir_filter_xxx_0_0_0_0, '0', blocks_complex_to_real_0_0_0_0, '0']
 
 metadata:
   file_format: 1

@@ -83,7 +83,7 @@ blocks:
     addresses: '"addr0=192.168.20.3, addr1=192.168.110.2"'
     affinity: ''
     alias: ''
-    antenna: TX/RX
+    antenna: RX2
     center_freq: input_variables.CenterFreq
     comment: ''
     gain: input_variables.Gain

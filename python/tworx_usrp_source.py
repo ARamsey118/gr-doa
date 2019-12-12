@@ -86,14 +86,9 @@ class tworx_usrp_source(gr.hier_block2):
     def __init__(self, samp_rate=1000000, center_freq=2400000000, gain=40, sources=4, addresses="addr0=192.168.10.2, addr1=192.168.20.3", antenna="RX2", num_samps=100000):
 
 
-        if sources == 2:
-            clk_time_src = 'internal'
-            subdevs = 'A:AB B:AB'
-            antenna_list = ["A", "B"]
-        else:
-            clk_time_src = 'external'
-            subdevs = 'A:0 B:0'
-            antenna_list = ["RX2", "TX/RX"]
+        clk_time_src = 'external'
+        subdevs = 'A:0 B:0'
+        antenna_list = ["RX2", "TX/RX"]
         self.usrp_sources = sources
         if antenna == "Toggle":
             self.toggle = True
