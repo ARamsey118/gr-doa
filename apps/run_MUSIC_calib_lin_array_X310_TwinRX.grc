@@ -36,55 +36,40 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: os.path.join(input_variables.DirectoryConfigFiles, input_variables.AntennaCalibration)
+    value: os.path.join(input_variables.DirectoryConfigFiles, input_variables.AntennaCalibration)+
+      vert_horz + input_variables.ConfigFileExt
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [744, 8]
+    coordinate: [747, 2]
     rotation: 0
     state: enabled
-- name: bus_range
-  id: variable
-  parameters:
-    comment: ''
-    value: '[list(range(0,input_variables.NumArrayElements)),list(range(input_variables.NumArrayElements,input_variables.NumArrayElements*2))]'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [124, 244]
-    rotation: 0
-    state: disabled
 - name: rel_phase_offsets_file_name
   id: variable
   parameters:
     comment: ''
-    value: os.path.join(input_variables.DirectoryConfigFiles, input_variables.RelativePhaseOffsets)
+    value: os.path.join(input_variables.DirectoryConfigFiles, input_variables.RelativePhaseOffsets)+
+      vert_horz + input_variables.ConfigFileExt
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [552, 8]
+    coordinate: [555, 2]
     rotation: 0
     state: enabled
-- name: blocks_null_sink_0
-  id: blocks_null_sink
+- name: vert_horz
+  id: variable
   parameters:
-    affinity: ''
-    alias: ''
-    bus_structure_sink: '[[0,],]'
     comment: ''
-    num_inputs: '1'
-    type: float
-    vlen: input_variables.NumTargets
+    value: '"vert"'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [834, 656]
-    rotation: 180
-    state: enabled
+    coordinate: [274, 82]
+    rotation: 0
+    state: true
 - name: blocks_null_sink_0_0
   id: blocks_null_sink
   parameters:
@@ -100,44 +85,6 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [670, 313]
-    rotation: 180
-    state: enabled
-- name: blocks_tag_debug_0
-  id: blocks_tag_debug
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    display: 'True'
-    filter: '""'
-    name: ''
-    num_inputs: '4'
-    type: complex
-    vlen: '1'
-  states:
-    bus_sink: true
-    bus_source: false
-    bus_structure: null
-    coordinate: [409, 280]
-    rotation: 0
-    state: true
-- name: doa_MUSIC_lin_array_0
-  id: doa_MUSIC_lin_array
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    inputs: input_variables.NumArrayElements
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    norm_spacing: input_variables.NormSpacing
-    num_targets: input_variables.NumTargets
-    pspectrum_len: input_variables.PSpectrumLength
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1229, 712]
     rotation: 180
     state: enabled
 - name: doa_MUSIC_lin_array_0_0
@@ -165,7 +112,7 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
-    config_filename: antenna_calibration_file_name + "horz" + input_variables.ConfigFileExt
+    config_filename: antenna_calibration_file_name
     maxoutbuf: '0'
     minoutbuf: '0'
     num_inputs: input_variables.NumArrayElements
@@ -174,42 +121,6 @@ blocks:
     bus_source: true
     bus_structure: null
     coordinate: [678, 184]
-    rotation: 0
-    state: enabled
-- name: doa_antenna_correction_0_0_0
-  id: doa_antenna_correction
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    config_filename: antenna_calibration_file_name + "vert" + input_variables.ConfigFileExt
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    num_inputs: input_variables.NumArrayElements
-  states:
-    bus_sink: true
-    bus_source: true
-    bus_structure: null
-    coordinate: [749, 107]
-    rotation: 0
-    state: enabled
-- name: doa_autocorrelate_0
-  id: doa_autocorrelate
-  parameters:
-    affinity: ''
-    alias: ''
-    avg_method: '1'
-    comment: ''
-    inputs: input_variables.NumArrayElements
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    overlap_size: input_variables.OverlapSize
-    snapshot_size: input_variables.SnapshotSize
-  states:
-    bus_sink: true
-    bus_source: false
-    bus_structure: null
-    coordinate: [1079, 99]
     rotation: 0
     state: enabled
 - name: doa_autocorrelate_0_0
@@ -231,26 +142,6 @@ blocks:
     coordinate: [995, 175]
     rotation: 0
     state: enabled
-- name: doa_compass
-  id: doa_qt_compass
-  parameters:
-    affinity: ''
-    alias: ''
-    arc_bias: '0'
-    comment: ''
-    gui_hint: tab@1
-    max_val: '180'
-    min_val: '0'
-    name: '""'
-    step: '10'
-    update_time: '0.05'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [717, 740]
-    rotation: 180
-    state: disabled
 - name: doa_compass_0
   id: doa_qt_compass
   parameters:
@@ -268,28 +159,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [553, 397]
+    coordinate: [527, 411]
     rotation: 180
     state: disabled
-- name: doa_find_local_max_0
-  id: doa_find_local_max
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    num_max_vals: input_variables.NumTargets
-    vector_len: input_variables.PSpectrumLength
-    x_max: '180.0'
-    x_min: '0.0'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1004, 644]
-    rotation: 180
-    state: enabled
 - name: doa_find_local_max_0_0
   id: doa_find_local_max
   parameters:
@@ -309,30 +181,13 @@ blocks:
     coordinate: [840, 301]
     rotation: 180
     state: enabled
-- name: doa_phase_correct_hier_1
-  id: doa_phase_correct_hier
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    config_filename: rel_phase_offsets_file_name + "vert" + input_variables.ConfigFileExt
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    num_ports: input_variables.NumArrayElements
-  states:
-    bus_sink: true
-    bus_source: true
-    bus_structure: null
-    coordinate: [447, 106]
-    rotation: 0
-    state: enabled
 - name: doa_phase_correct_hier_1_0
   id: doa_phase_correct_hier
   parameters:
     affinity: ''
     alias: ''
     comment: ''
-    config_filename: rel_phase_offsets_file_name + "horz" + input_variables.ConfigFileExt
+    config_filename: rel_phase_offsets_file_name
     maxoutbuf: '0'
     minoutbuf: '0'
     num_ports: input_variables.NumArrayElements
@@ -349,8 +204,8 @@ blocks:
     addresses: input_variables.RxAddr
     affinity: ''
     alias: ''
-    antenna: Toggle
-    bus_structure_source: '[[0, 1, 2, 3],[4,5,6,7,]]'
+    antenna: TX/RX
+    bus_structure_source: '[[0, 1, 2, 3]]'
     center_freq: input_variables.CenterFreq
     comment: ''
     gain: input_variables.Gain
@@ -441,11 +296,11 @@ blocks:
 
       ConfigFileExt = ".cfg"
 
-      RelativePhaseOffsets = "measure_X310_TwinRX_relative_phase_offsets_245_"
+      RelativePhaseOffsets = f"measure_X310_TwinRX_relative_phase_offsets_{CenterFreq:.2e}_{SampleRate:.2e}_"
 
-      CorrectedPhaseOffsets = "measure_X310_TwinRX_corrected_phase_offsets_245_"
+      CorrectedPhaseOffsets = f"measure_X310_TwinRX_corrected_phase_offsets_{CenterFreq:.2e}_{SampleRate:.2e}_"
 
-      AntennaCalibration = "calibration_lin_array_245_"
+      AntennaCalibration = f"calibration_lin_array_{CenterFreq:.2e}_{SampleRate:.2e}_"
 
       '
   states:
@@ -455,69 +310,6 @@ blocks:
     coordinate: [320, 32]
     rotation: 0
     state: enabled
-- name: qtgui_number_sink_0
-  id: qtgui_number_sink
-  parameters:
-    affinity: ''
-    alias: ''
-    autoscale: 'False'
-    avg: '0'
-    color1: ("black", "black")
-    color10: ("black", "black")
-    color2: ("black", "black")
-    color3: ("black", "black")
-    color4: ("black", "black")
-    color5: ("black", "black")
-    color6: ("black", "black")
-    color7: ("black", "black")
-    color8: ("black", "black")
-    color9: ("black", "black")
-    comment: ''
-    factor1: '1'
-    factor10: '1'
-    factor2: '1'
-    factor3: '1'
-    factor4: '1'
-    factor5: '1'
-    factor6: '1'
-    factor7: '1'
-    factor8: '1'
-    factor9: '1'
-    graph_type: qtgui.NUM_GRAPH_VERT
-    gui_hint: ''
-    label1: ''
-    label10: ''
-    label2: ''
-    label3: ''
-    label4: ''
-    label5: ''
-    label6: ''
-    label7: ''
-    label8: ''
-    label9: ''
-    max: '180'
-    min: '0'
-    name: '"vert"'
-    nconnections: '1'
-    type: float
-    unit1: ''
-    unit10: ''
-    unit2: ''
-    unit3: ''
-    unit4: ''
-    unit5: ''
-    unit6: ''
-    unit7: ''
-    unit8: ''
-    unit9: ''
-    update_time: '0.10'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [628, 661]
-    rotation: 180
-    state: true
 - name: qtgui_number_sink_0_0
   id: qtgui_number_sink
   parameters:
@@ -560,7 +352,7 @@ blocks:
     label9: ''
     max: '180'
     min: '0'
-    name: '"horz"'
+    name: vert_horz
     nconnections: '1'
     type: float
     unit1: ''
@@ -581,79 +373,6 @@ blocks:
     coordinate: [535, 380]
     rotation: 180
     state: true
-- name: qtgui_vector_sink_f_0
-  id: qtgui_vector_sink_f
-  parameters:
-    affinity: ''
-    alias: ''
-    alpha1: '1.0'
-    alpha10: '1.0'
-    alpha2: '1.0'
-    alpha3: '1.0'
-    alpha4: '1.0'
-    alpha5: '1.0'
-    alpha6: '1.0'
-    alpha7: '1.0'
-    alpha8: '1.0'
-    alpha9: '1.0'
-    autoscale: 'False'
-    average: '1.0'
-    color1: '"blue"'
-    color10: '"dark blue"'
-    color2: '"red"'
-    color3: '"green"'
-    color4: '"black"'
-    color5: '"cyan"'
-    color6: '"magenta"'
-    color7: '"yellow"'
-    color8: '"dark red"'
-    color9: '"dark green"'
-    comment: ''
-    grid: 'True'
-    gui_hint: tab@0
-    label1: ''
-    label10: ''
-    label2: ''
-    label3: ''
-    label4: ''
-    label5: ''
-    label6: ''
-    label7: ''
-    label8: ''
-    label9: ''
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    name: '""'
-    nconnections: '1'
-    ref_level: '0'
-    showports: 'True'
-    update_time: '0.05'
-    vlen: input_variables.PSpectrumLength
-    width1: '2'
-    width10: '1'
-    width2: '1'
-    width3: '1'
-    width4: '1'
-    width5: '1'
-    width6: '1'
-    width7: '1'
-    width8: '1'
-    width9: '1'
-    x_axis_label: '"angle (in degrees)"'
-    x_start: '0'
-    x_step: 180.0/input_variables.PSpectrumLength
-    x_units: '""'
-    y_axis_label: '"Pseudo-Spectrum (dB)"'
-    y_units: '""'
-    ymax: '0'
-    ymin: '-20'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [966, 744]
-    rotation: 180
-    state: disabled
 - name: qtgui_vector_sink_f_0_0
   id: qtgui_vector_sink_f
   parameters:
@@ -726,7 +445,7 @@ blocks:
     bus_structure: null
     coordinate: [802, 401]
     rotation: 180
-    state: disabled
+    state: enabled
 - name: tab
   id: qtgui_tab_widget
   parameters:
@@ -763,25 +482,15 @@ blocks:
     state: enabled
 
 connections:
-- [doa_MUSIC_lin_array_0, '0', doa_find_local_max_0, '0']
-- [doa_MUSIC_lin_array_0, '0', qtgui_vector_sink_f_0, '0']
 - [doa_MUSIC_lin_array_0_0, '0', doa_find_local_max_0_0, '0']
 - [doa_MUSIC_lin_array_0_0, '0', qtgui_vector_sink_f_0_0, '0']
 - [doa_antenna_correction_0_0, '4', doa_autocorrelate_0_0, '4']
-- [doa_antenna_correction_0_0_0, '4', doa_autocorrelate_0, '4']
-- [doa_autocorrelate_0, '0', doa_MUSIC_lin_array_0, '0']
 - [doa_autocorrelate_0_0, '0', doa_MUSIC_lin_array_0_0, '0']
-- [doa_find_local_max_0, '0', blocks_null_sink_0, '0']
-- [doa_find_local_max_0, '1', doa_compass, '0']
-- [doa_find_local_max_0, '1', qtgui_number_sink_0, '0']
 - [doa_find_local_max_0_0, '0', blocks_null_sink_0_0, '0']
 - [doa_find_local_max_0_0, '1', doa_compass_0, '0']
 - [doa_find_local_max_0_0, '1', qtgui_number_sink_0_0, '0']
-- [doa_phase_correct_hier_1, '4', doa_antenna_correction_0_0_0, '4']
 - [doa_phase_correct_hier_1_0, '4', doa_antenna_correction_0_0, '4']
-- [doa_tworx_usrp_source_0, '8', doa_phase_correct_hier_1, '4']
-- [doa_tworx_usrp_source_0, '9', blocks_tag_debug_0, '4']
-- [doa_tworx_usrp_source_0, '9', doa_phase_correct_hier_1_0, '4']
+- [doa_tworx_usrp_source_0, '4', doa_phase_correct_hier_1_0, '4']
 
 metadata:
   file_format: 1

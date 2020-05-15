@@ -62,7 +62,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '"vert"'
+    value: '"horz"'
   states:
     bus_sink: false
     bus_source: false
@@ -162,7 +162,7 @@ blocks:
     addresses: '"addr0=192.168.20.3, addr1=192.168.110.2"'
     affinity: ''
     alias: ''
-    antenna: RX2
+    antenna: TX/RX
     bus_structure_source: '[[0,],]'
     center_freq: input_variables.CenterFreq
     comment: ''
@@ -199,55 +199,17 @@ blocks:
     comment: 'input_variables:
 
       Contains all the user-defined variables.'
-    source_code: '# this module will be imported into your flowgraph
-
-      import os
-
-      ToneFreq = 10000
-
-      SampleRate = 1000000
-
-      CenterFreq = 2450000000
-
-      RxAddr = "addr=192.168.20.3"
-
-      TxAddr = "addr=192.168.20.3"
-
-      Gain = 60
-
-      NumArrayElements = 4
-
-      NormSpacing = 0.5
-
-      PilotAngle = 135
-
-      SnapshotSize = 2**11
-
-      Samples2FindMax = 2**11
-
-      Samples2Avg = 2**11
-
-      OverlapSize = 2**9
-
-      SkipAhead = 2**13
-
-      NumTargets = 1
-
-      PSpectrumLength = 2**10
-
-      home = os.path.expanduser("~")
-
-      DirectoryConfigFiles = os.path.join(home, "devel/localization_fulbright/config/")
-
-      ConfigFileExt = ".cfg"
-
-      RelativePhaseOffsets = "measure_X310_TwinRX_relative_phase_offsets_245_"
-
-      CorrectedPhaseOffsets = "measure_X310_TwinRX_corrected_phase_offsets_245_"
-
-      AntennaCalibration = "calibration_lin_array_245_"
-
-      '
+    source_code: "# this module will be imported into your flowgraph\nimport os\n\
+      ToneFreq = 1e6\nSampleRate = 10e6\nCenterFreq = 2.45e9\nRxAddr = \"addr=192.168.20.3\"\
+      \nRxAddr1 = \"addr=192.168.110.2\"\nTxAddr = \"addr=192.168.20.3\"\nGain = 60\n\
+      NumArrayElements = 4\nNormSpacing = 0.5\nPilotAngle = 90\nSnapshotSize = 2**11\n\
+      Samples2FindMax = 2**11\nSamples2Avg = 2**11\nOverlapSize = 2**9\nSkipAhead\
+      \ = 2**13\nNumTargets = 1\nPSpectrumLength = 2**10\nhome = os.path.expanduser(\"\
+      ~\")\nDirectoryConfigFiles = os.path.join(home, \"devel/localization_fulbright/config/\"\
+      )\nConfigFileExt = \".cfg\"\nRelativePhaseOffsets = f\"measure_X310_TwinRX_relative_phase_offsets_{CenterFreq:.2e}_{SampleRate:.2e}_\"\
+      \nCorrectedPhaseOffsets = f\"measure_X310_TwinRX_corrected_phase_offsets_{CenterFreq:.2e}_{SampleRate:.2e}_\"\
+      \nAntennaCalibration = f\"calibration_lin_array_{CenterFreq:.2e}_{SampleRate:.2e}_\"\
+      \ \n"
   states:
     bus_sink: false
     bus_source: false

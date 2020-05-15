@@ -36,12 +36,13 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: os.path.join(input_variables.DirectoryConfigFiles, input_variables.RelativePhaseOffsets)
+    value: os.path.join(input_variables.DirectoryConfigFiles, input_variables.RelativePhaseOffsets)+
+      vert_horz + input_variables.ConfigFileExt
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [468, 166]
+    coordinate: [212, 110]
     rotation: 0
     state: enabled
 - name: taps
@@ -50,17 +51,29 @@ blocks:
     beta: '6.76'
     comment: ''
     gain: '1.0'
-    high_cutoff_freq: 18e3
-    low_cutoff_freq: 12e3
+    high_cutoff_freq: 1.2e6
+    low_cutoff_freq: 0.8e6
     samp_rate: input_variables.SampleRate
     type: complex_band_pass
-    width: 1e3
+    width: 10e3
     win: firdes.WIN_HAMMING
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
     coordinate: [488, 416]
+    rotation: 0
+    state: true
+- name: vert_horz
+  id: variable
+  parameters:
+    comment: ''
+    value: '"horz"'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [388, 112]
     rotation: 0
     state: true
 - name: blocks_complex_to_real_0
@@ -133,7 +146,7 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
-    config_filename: rel_phase_offsets_file_name + "horz" + input_variables.ConfigFileExt
+    config_filename: rel_phase_offsets_file_name
     maxoutbuf: '0'
     minoutbuf: '0'
     num_ports: input_variables.NumArrayElements
@@ -185,7 +198,7 @@ blocks:
     bus_structure: null
     coordinate: [777, 236]
     rotation: 0
-    state: true
+    state: enabled
 - name: fir_filter_xxx_0_0
   id: fir_filter_xxx
   parameters:
@@ -202,9 +215,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [778, 299]
+    coordinate: [778, 297]
     rotation: 0
-    state: true
+    state: enabled
 - name: fir_filter_xxx_0_0_0
   id: fir_filter_xxx
   parameters:
@@ -223,7 +236,7 @@ blocks:
     bus_structure: null
     coordinate: [779, 362]
     rotation: 0
-    state: true
+    state: enabled
 - name: fir_filter_xxx_0_0_0_0
   id: fir_filter_xxx
   parameters:
@@ -242,7 +255,7 @@ blocks:
     bus_structure: null
     coordinate: [780, 426]
     rotation: 0
-    state: true
+    state: enabled
 - name: import
   id: import
   parameters:
@@ -267,9 +280,9 @@ blocks:
 
       import os
 
-      ToneFreq = 10000
+      ToneFreq = 1e6
 
-      SampleRate = 100000
+      SampleRate = 10e6
 
       CenterFreq = 2450000000
 
@@ -305,13 +318,11 @@ blocks:
 
       ConfigFileExt = ".cfg"
 
-      RelativePhaseOffsets = "measure_X310_TwinRX_relative_phase_offsets_245_"
+      RelativePhaseOffsets = f"measure_X310_TwinRX_relative_phase_offsets_{CenterFreq:.2e}_{SampleRate:.2e}_"
 
-      CorrectedPhaseOffsets = "measure_X310_TwinRX_corrected_phase_offsets_245_"
+      CorrectedPhaseOffsets = f"measure_X310_TwinRX_corrected_phase_offsets_{CenterFreq:.2e}_{SampleRate:.2e}_"
 
-      AntennaCalibration = "calibration_lin_array_245_"
-
-      '
+      AntennaCalibration = f"calibration_lin_array_{CenterFreq:.2e}_{SampleRate:.2e}_" '
   states:
     bus_sink: false
     bus_source: false

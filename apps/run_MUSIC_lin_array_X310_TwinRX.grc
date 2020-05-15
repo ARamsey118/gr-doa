@@ -36,14 +36,27 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: os.path.join(input_variables.DirectoryConfigFiles, input_variables.RelativePhaseOffsets)
+    value: os.path.join(input_variables.DirectoryConfigFiles, input_variables.RelativePhaseOffsets)+
+      vert_horz + input_variables.ConfigFileExt
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [544, 24]
+    coordinate: [529, 19]
     rotation: 0
     state: enabled
+- name: vert_horz
+  id: variable
+  parameters:
+    comment: ''
+    value: '"vert"'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [102, 116]
+    rotation: 0
+    state: true
 - name: blocks_null_sink_0
   id: blocks_null_sink
   parameters:
@@ -235,11 +248,11 @@ blocks:
 
       DirectoryConfigFiles = os.path.join(home, "devel/localization_fulbright/config/")
 
-      RelativePhaseOffsets = "measure_X310_TwinRX_relative_phase_offsets_245.cfg"
+      RelativePhaseOffsets = f"measure_X310_TwinRX_relative_phase_offsets_{CenterFreq:.2e}_{SampleRate:.2e}_"
 
-      CorrectedPhaseOffsets = "measure_X310_TwinRX_corrected_phase_offsets_245.cfg"
+      CorrectedPhaseOffsets = f"measure_X310_TwinRX_corrected_phase_offsets_{CenterFreq:.2e}_{SampleRate:.2e}_"
 
-      AntennaCalibration = "calibration_lin_array_245.cfg"
+      AntennaCalibration = f"calibration_lin_array_{CenterFreq:.2e}_{SampleRate:.2e}_"
 
       '
   states:

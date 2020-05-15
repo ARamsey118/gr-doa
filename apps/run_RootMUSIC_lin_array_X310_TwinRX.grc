@@ -32,6 +32,31 @@ options:
     state: enabled
 
 blocks:
+- name: rel_phase_offsets_file_name
+  id: variable
+  parameters:
+    comment: ''
+    value: os.path.join(input_variables.DirectoryConfigFiles, input_variables.RelativePhaseOffsets)+
+      vert_horz + input_variables.ConfigFileExt
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [327, 111]
+    rotation: 0
+    state: enabled
+- name: vert_horz
+  id: variable
+  parameters:
+    comment: ''
+    value: '"vert"'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [50, 236]
+    rotation: 0
+    state: true
 - name: doa_autocorrelate_0
   id: doa_autocorrelate
   parameters:
@@ -57,7 +82,7 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
-    config_filename: /tmp/measure_X310_TwinRX_phase_offsets_245.cfg
+    config_filename: rel_phase_offsets_file_name
     maxoutbuf: '0'
     minoutbuf: '0'
     num_ports: input_variables.NumArrayElements
@@ -112,11 +137,14 @@ blocks:
     addresses: '"addr0=192.168.20.3"'
     affinity: ''
     alias: ''
+    antenna: RX2
+    bus_structure_source: '[[0,],]'
     center_freq: input_variables.CenterFreq
     comment: ''
     gain: input_variables.Gain
     maxoutbuf: '0'
     minoutbuf: '0'
+    num_samps: '1000'
     samp_rate: input_variables.SampleRate
     sources: input_variables.NumArrayElements
   states:
@@ -173,11 +201,11 @@ blocks:
 
       DirectoryConfigFiles = os.path.join(home, "devel/localization_fulbright/config/")
 
-      RelativePhaseOffsets = "measure_X310_TwinRX_relative_phase_offsets_245.cfg"
+      RelativePhaseOffsets = f"measure_X310_TwinRX_relative_phase_offsets_{CenterFreq:.2e}_{SampleRate:.2e}_"
 
-      CorrectedPhaseOffsets = "measure_X310_TwinRX_corrected_phase_offsets_245.cfg"
+      CorrectedPhaseOffsets = f"measure_X310_TwinRX_corrected_phase_offsets_{CenterFreq:.2e}_{SampleRate:.2e}_"
 
-      AntennaCalibration = "calibration_lin_array_245.cfg"
+      AntennaCalibration = f"calibration_lin_array_{CenterFreq:.2e}_{SampleRate:.2e}_"
 
       '
   states:

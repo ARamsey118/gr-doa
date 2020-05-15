@@ -36,26 +36,40 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: os.path.join(input_variables.DirectoryConfigFiles, input_variables.CorrectedPhaseOffsets)
+    value: os.path.join(input_variables.DirectoryConfigFiles, input_variables.CorrectedPhaseOffsets)+
+      vert_horz + input_variables.ConfigFileExt
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [624, 112]
+    coordinate: [663, 254]
     rotation: 0
     state: enabled
 - name: rel_phase_offsets_file_name
   id: variable
   parameters:
     comment: ''
-    value: os.path.join(input_variables.DirectoryConfigFiles, input_variables.RelativePhaseOffsets)
+    value: os.path.join(input_variables.DirectoryConfigFiles, input_variables.RelativePhaseOffsets)+
+      vert_horz + input_variables.ConfigFileExt
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [624, 32]
+    coordinate: [435, 125]
     rotation: 0
     state: enabled
+- name: vert_horz
+  id: variable
+  parameters:
+    comment: ''
+    value: '"vert"'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [153, 181]
+    rotation: 0
+    state: true
 - name: doa_findmax_and_save_0
   id: doa_findmax_and_save
   parameters:
@@ -153,9 +167,9 @@ blocks:
 
       import os
 
-      ToneFreq = 10000
+      ToneFreq = 1e6
 
-      SampleRate = 1000000
+      SampleRate = 10e6
 
       CenterFreq = 2450000000
 
@@ -169,7 +183,7 @@ blocks:
 
       NormSpacing = 0.5
 
-      PilotAngle = 45
+      PilotAngle = 135
 
       SnapshotSize = 2**11
 
@@ -189,11 +203,13 @@ blocks:
 
       DirectoryConfigFiles = os.path.join(home, "devel/localization_fulbright/config/")
 
-      RelativePhaseOffsets = "measure_X310_TwinRX_relative_phase_offsets_245.cfg"
+      ConfigFileExt = ".cfg"
 
-      CorrectedPhaseOffsets = "measure_X310_TwinRX_corrected_phase_offsets_245.cfg"
+      RelativePhaseOffsets = f"measure_X310_TwinRX_relative_phase_offsets_{CenterFreq:.2e}_{SampleRate:.2e}_"
 
-      AntennaCalibration = "calibration_lin_array_245.cfg"
+      CorrectedPhaseOffsets = f"measure_X310_TwinRX_corrected_phase_offsets_{CenterFreq:.2e}_{SampleRate:.2e}_"
+
+      AntennaCalibration = f"calibration_lin_array_{CenterFreq:.2e}_{SampleRate:.2e}_"
 
       '
   states:

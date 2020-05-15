@@ -36,7 +36,8 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: os.path.join(input_variables.DirectoryConfigFiles, input_variables.RelativePhaseOffsets)
+    value: os.path.join(input_variables.DirectoryConfigFiles, input_variables.RelativePhaseOffsets)+
+      vert_horz + input_variables.ConfigFileExt
   states:
     bus_sink: false
     bus_source: false
@@ -44,6 +45,18 @@ blocks:
     coordinate: [824, 112]
     rotation: 0
     state: enabled
+- name: vert_horz
+  id: variable
+  parameters:
+    comment: ''
+    value: '"vert"'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [363, 166]
+    rotation: 0
+    state: true
 - name: doa_findmax_and_save_0
   id: doa_findmax_and_save
   parameters:
@@ -57,7 +70,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [887, 328]
+    coordinate: [940, 324]
     rotation: 0
     state: enabled
 - name: doa_twinrx_phase_offset_est_0
@@ -84,11 +97,13 @@ blocks:
     affinity: ''
     alias: ''
     antenna: RX2
+    bus_structure_source: '[[0,],]'
     center_freq: input_variables.CenterFreq
     comment: ''
     gain: input_variables.Gain
     maxoutbuf: '0'
     minoutbuf: '0'
+    num_samps: '1000'
     samp_rate: input_variables.SampleRate
     sources: input_variables.NumArrayElements
   states:
@@ -122,15 +137,13 @@ blocks:
 
       import os
 
-      ToneFreq = 10000
+      ToneFreq = 1e6
 
-      SampleRate = 1000000
+      SampleRate = 10e6
 
       CenterFreq = 2450000000
 
       RxAddr = "addr=192.168.20.3"
-
-      RxAddr1 = "addr=192.168.110.2"
 
       TxAddr = "addr=192.168.20.3"
 
@@ -140,7 +153,7 @@ blocks:
 
       NormSpacing = 0.5
 
-      PilotAngle = 45
+      PilotAngle = 135
 
       SnapshotSize = 2**11
 
@@ -160,18 +173,20 @@ blocks:
 
       DirectoryConfigFiles = os.path.join(home, "devel/localization_fulbright/config/")
 
-      RelativePhaseOffsets = "measure_X310_TwinRX_relative_phase_offsets_245.cfg"
+      ConfigFileExt = ".cfg"
 
-      CorrectedPhaseOffsets = "measure_X310_TwinRX_corrected_phase_offsets_245.cfg"
+      RelativePhaseOffsets = f"measure_X310_TwinRX_relative_phase_offsets_{CenterFreq:.2e}_{SampleRate:.2e}_"
 
-      AntennaCalibration = "calibration_lin_array_245.cfg"
+      CorrectedPhaseOffsets = f"measure_X310_TwinRX_corrected_phase_offsets_{CenterFreq:.2e}_{SampleRate:.2e}_"
+
+      AntennaCalibration = f"calibration_lin_array_{CenterFreq:.2e}_{SampleRate:.2e}_"
 
       '
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [320, 32]
+    coordinate: [394, 34]
     rotation: 0
     state: enabled
 
