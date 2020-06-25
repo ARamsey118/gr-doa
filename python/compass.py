@@ -121,10 +121,6 @@ class compass(gr.sync_block, Qt.QWidget):
 
         # connect the plot callback signal
         self.valueChanged.connect(self.do_plot)
-        #print(self.this_layout.rowCount)
-        print(self.compass_layout.rowCount())
-        print(self.compass_layout.columnCount())
-        print(self.compass_layout.columnMinimumWidth(0))
 
     def change_angle(self,angle):
         self.dial.setValue(float(angle))
