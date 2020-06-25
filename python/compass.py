@@ -26,15 +26,15 @@ from gnuradio import gr;
 import time
 import random
 
-from PyQt5 import Qt, QtCore, QtGui
+from PyQt5 import Qt, QtCore, QtGui, QtWidgets
 import PyQt5.Qwt as Qwt
 
-class compass(gr.sync_block, Qwt.QwtPlot):
-    __pyqtSignals__ = ("updatePlot(int)")
+class compass(gr.sync_block, Qt.QWidget):
+    valueChanged = QtCore.pyqtSignal()
 
     def __init__(self, label="", min_val=-90, max_val=90, step=10, arc_bias=0, *args):
         gr.sync_block.__init__(self,name="QT Compass",in_sig=[numpy.float32],out_sig=[])
-        Qwt.QwtPlot.__init__(self, *args)
+        Qt.QWidget.__init__(self, *args)
 
         # Set parameters
         self.update_period = 0.1
@@ -44,23 +44,28 @@ class compass(gr.sync_block, Qwt.QwtPlot):
         ### QT STUFF
 
         # Setup overall layouts
-        self.this_layout = Qt.QVBoxLayout()
-        self.compass_layout = Qt.QGridLayout()
+        self.this_layout = QtWidgets.QVBoxLayout(self)
+        self.compass_layout = QtWidgets.QGridLayout()
 
         # Setup Dial
         self.dial = Qwt.QwtDial(self)
         self.dial.setOrigin(180+arc_bias) # Orient dial so 0 is at 9 o'clock
-        self.dial.setScaleArc(min_val,max_val)
-        self.dial.setRange(min_val, max_val, step)
-        self.dial.setScale(min_val ,max_val, step)
-        self.dial.setScaleTicks(1,20,30)
+        self.dial.setScaleArc(float(min_val), float(max_val))
+        scaleDraw = Qwt.QwtRoundScaleDraw()
+        scaleDraw.setSpacing(8)
+        scaleDraw.setTickLength(Qwt.QwtScaleDiv.MinorTick, 0)
+        scaleDraw.setTickLength(Qwt.QwtScaleDiv.MediumTick, 4)
+        scaleDraw.setTickLength(Qwt.QwtScaleDiv.MajorTick, 8)
+        self.dial.setScaleDraw(scaleDraw)
+
+        self.dial.setScale(min_val ,max_val)
 
         # Add needle
         self.dial.setNeedle(Qwt.QwtDialSimpleNeedle(
             Qwt.QwtDialSimpleNeedle.Arrow,
             True,
             QtGui.QColor(QtCore.Qt.red),
-            QtGui.QColor(QtCore.Qt.gray).light(130)))
+            QtGui.QColor(QtCore.Qt.gray).lighter(130)))
         self.dial.setValue(0)
 
         # Set sizing
@@ -81,9 +86,9 @@ class compass(gr.sync_block, Qwt.QwtPlot):
         self.this_layout.addLayout(self.compass_layout)
 
         # Setup LCD
-        lcd_layout = Qt.QGridLayout()
+        lcd_layout = QtWidgets.QGridLayout()
 
-        self.lcd = QtGui.QLCDNumber(self)
+        self.lcd = QtWidgets.QLCDNumber(self)
         sizePolicy = Qt.QSizePolicy(Qt.QSizePolicy.Preferred, Qt.QSizePolicy.Preferred)
         sizePolicy.setHeightForWidth(True)
         self.lcd.setSizePolicy(sizePolicy)
@@ -97,39 +102,41 @@ class compass(gr.sync_block, Qwt.QwtPlot):
         self.lcd.setDigitCount(3) # Max digits displayed
         self.lcd.setSmallDecimalPoint(True)
         self.lcd.display(123.4)
-        self.compass_layout.addLayout(lcd_layout,0,0)
+        self.this_layout.addLayout(lcd_layout)
         lcd_layout.addWidget(self.lcd,1,1,1,1)
 
         # Add spacers to center LCD
-        spacerTop = QtGui.QSpacerItem(1,300,Qt.QSizePolicy.Maximum,Qt.QSizePolicy.Expanding)
-        spacerSides = QtGui.QSpacerItem(220,1,Qt.QSizePolicy.Maximum,Qt.QSizePolicy.Expanding)
-        spacerBottom = QtGui.QSpacerItem(1,150,Qt.QSizePolicy.Maximum,Qt.QSizePolicy.Expanding)
+        spacerTop = QtWidgets.QSpacerItem(1,300,Qt.QSizePolicy.Maximum,Qt.QSizePolicy.Expanding)
+        spacerSides = QtWidgets.QSpacerItem(220,1,Qt.QSizePolicy.Maximum,Qt.QSizePolicy.Expanding)
+        spacerBottom = QtWidgets.QSpacerItem(1,150,Qt.QSizePolicy.Maximum,Qt.QSizePolicy.Expanding)
         # Top Spacers
-        lcd_layout.addItem(spacerTop,0,1,1,1)
+        #lcd_layout.addItem(spacerTop,0,1,1,1)
         # Side Spacers
         lcd_layout.addItem(spacerSides,1,0,1,1)
         lcd_layout.addItem(spacerSides,1,2,1,1)
         # Bottom Spacers
-        lcd_layout.addItem(spacerBottom,2,1,1,1)
+        #lcd_layout.addItem(spacerBottom,2,1,1,1)
 
         self.label.raise_()
 
         # connect the plot callback signal
-        QtCore.QObject.connect(self,
-                       QtCore.SIGNAL("updatePlot(int)"),
-                       self.do_plot)
+        self.valueChanged.connect(self.do_plot)
+        #print(self.this_layout.rowCount)
+        print(self.compass_layout.rowCount())
+        print(self.compass_layout.columnCount())
+        print(self.compass_layout.columnMinimumWidth(0))
 
     def change_angle(self,angle):
         self.dial.setValue(float(angle))
 
     def trigger_update(self):
-        self.emit(QtCore.SIGNAL("updatePlot(int)"), 0)
+        self.valueChanged.emit()
 
-    def do_plot(self, a):
+    def do_plot(self):
         # Update qt plots
         self.change_angle(self.next_angle)
         self.lcd.display(self.next_angle)
-        self.replot()
+        self.update()
 
     def work(self, input_items, output_items):
         # Average inputs
@@ -138,7 +145,7 @@ class compass(gr.sync_block, Qwt.QwtPlot):
         if (time.time() - self.last)>self.update_period:
             self.last = time.time()
             # trigger update
-            self.emit(QtCore.SIGNAL("updatePlot(int)"), 0)
+            self.valueChanged.emit()
 
         # Consume all inputs
         return len(input_items[0])

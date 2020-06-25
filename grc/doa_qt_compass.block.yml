@@ -40,10 +40,13 @@ inputs:
     dtype: float
 
 templates:
-    imports: import doa
+    imports: |-
+        from PyQt5 import Qt
+        import doa
+        import sip
     make: |-
         <%
-            win = 'self._%s_win'%id
+            win = 'self.%s'%id
         %>\
         doa.compass(${name}, ${min_val}, ${max_val}, ${step}, ${arc_bias})
         ${gui_hint() % win}
