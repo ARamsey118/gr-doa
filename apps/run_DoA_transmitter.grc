@@ -18,7 +18,7 @@ options:
     realtime_scheduling: ''
     run: 'True'
     run_command: '{python} -u {filename}'
-    run_options: prompt
+    run_options: run
     sizing_mode: fixed
     thread_safe_setters: ''
     title: ''
@@ -32,31 +32,54 @@ options:
     state: enabled
 
 blocks:
-- name: input_variables
-  id: epy_module
+- name: CenterFreq
+  id: variable
   parameters:
-    alias: ''
-    comment: "input_variables: \nContains all the user-defined variables."
-    source_code: '# Comment here
-
-        ToneFreq = 10000
-
-        SampleRate = 1000000
-
-        CenterFreq = 2450000000
-
-        TxAddr = "addr=192.168.40.2"
-
-        Gain = 20
-
-        '
+    comment: ''
+    value: 2.49e9
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [8, 104]
+    coordinate: [16, 236.0]
     rotation: 0
-    state: enabled
+    state: true
+- name: Gain
+  id: variable
+  parameters:
+    comment: ''
+    value: '56'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [16, 92.0]
+    rotation: 0
+    state: true
+- name: SampleRate
+  id: variable
+  parameters:
+    comment: ''
+    value: 10e6
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [16, 308.0]
+    rotation: 0
+    state: true
+- name: ToneFreq
+  id: variable
+  parameters:
+    comment: ''
+    value: SampleRate / 100
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [16, 164.0]
+    rotation: 0
+    state: true
 - name: analog_sig_source_x_0
   id: analog_sig_source_x
   parameters:
@@ -64,19 +87,19 @@ blocks:
     alias: ''
     amp: '1'
     comment: ''
-    freq: input_variables.ToneFreq
+    freq: ToneFreq
     maxoutbuf: '0'
     minoutbuf: '0'
     offset: '0'
     phase: '0'
-    samp_rate: input_variables.SampleRate
+    samp_rate: SampleRate
     type: complex
     waveform: analog.GR_COS_WAVE
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [448, 132.0]
+    coordinate: [184, 132.0]
     rotation: 0
     state: enabled
 - name: uhd_usrp_sink_0
@@ -148,7 +171,7 @@ blocks:
     bw7: '0'
     bw8: '0'
     bw9: '0'
-    center_freq0: input_variables.CenterFreq
+    center_freq0: CenterFreq
     center_freq1: '0'
     center_freq10: '0'
     center_freq11: '0'
@@ -190,9 +213,9 @@ blocks:
     clock_source6: ''
     clock_source7: ''
     comment: ''
-    dev_addr: input_variables.TxAddr
+    dev_addr: ''
     dev_args: '""'
-    gain0: input_variables.Gain
+    gain0: Gain
     gain1: '0'
     gain10: '0'
     gain11: '0'
@@ -326,7 +349,7 @@ blocks:
     norm_gain9: 'False'
     num_mboards: '1'
     otw: ''
-    samp_rate: input_variables.SampleRate
+    samp_rate: SampleRate
     sd_spec0: ''
     sd_spec1: ''
     sd_spec2: ''
@@ -352,7 +375,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [680, 104]
+    coordinate: [472, 116.0]
     rotation: 0
     state: enabled
 

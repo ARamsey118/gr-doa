@@ -42,14 +42,14 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [327, 111]
+    coordinate: [144, 236.0]
     rotation: 0
     state: enabled
 - name: vert_horz
   id: variable
   parameters:
     comment: ''
-    value: '"vert"'
+    value: '"horz"'
   states:
     bus_sink: false
     bus_source: false
@@ -70,10 +70,10 @@ blocks:
     overlap_size: input_variables.OverlapSize
     snapshot_size: input_variables.SnapshotSize
   states:
-    bus_sink: false
+    bus_sink: true
     bus_source: false
     bus_structure: null
-    coordinate: [488, 328.0]
+    coordinate: [488, 340.0]
     rotation: 0
     state: enabled
 - name: doa_phase_correct_hier_1
@@ -87,10 +87,10 @@ blocks:
     minoutbuf: '0'
     num_ports: input_variables.NumArrayElements
   states:
-    bus_sink: false
-    bus_source: false
+    bus_sink: true
+    bus_source: true
     bus_structure: null
-    coordinate: [272, 328.0]
+    coordinate: [272, 348.0]
     rotation: 0
     state: enabled
 - name: doa_qt_compass_0
@@ -110,7 +110,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [984, 340.0]
+    coordinate: [984, 324.0]
     rotation: 0
     state: enabled
 - name: doa_rootMUSIC_linear_array_0
@@ -128,17 +128,17 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [760, 356.0]
+    coordinate: [760, 340.0]
     rotation: 0
     state: enabled
 - name: doa_tworx_usrp_source_0
   id: doa_tworx_usrp_source
   parameters:
-    addresses: '"addr0=192.168.20.3"'
+    addresses: input_variables.RxAddr
     affinity: ''
     alias: ''
-    antenna: RX2
-    bus_structure_source: '[[0,],]'
+    antenna: TX/RX
+    bus_structure_source: ''
     center_freq: input_variables.CenterFreq
     comment: ''
     gain: input_variables.Gain
@@ -149,9 +149,22 @@ blocks:
     sources: input_variables.NumArrayElements
   states:
     bus_sink: false
+    bus_source: true
+    bus_structure: null
+    coordinate: [48, 324.0]
+    rotation: 0
+    state: enabled
+- name: import_0
+  id: import
+  parameters:
+    alias: ''
+    comment: ''
+    imports: import os
+  states:
+    bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [48, 328.0]
+    coordinate: [344, 20.0]
     rotation: 0
     state: true
 - name: input_variables
@@ -167,17 +180,17 @@ blocks:
 
       ToneFreq = 10000
 
-      SampleRate = 1000000
+      SampleRate = 10000000
 
-      CenterFreq = 2450000000
+      CenterFreq = 2490000000
 
-      RxAddr = "addr=192.168.20.3"
+      RxAddr = "addr0=192.168.20.3, addr1=192.168.110.2"
 
       TxAddr = "addr=192.168.20.3"
 
       Gain = 60
 
-      NumArrayElements = 2
+      NumArrayElements = 4
 
       NormSpacing = 0.5
 
@@ -201,6 +214,8 @@ blocks:
 
       DirectoryConfigFiles = os.path.join(home, "devel/localization_fulbright/config/")
 
+      ConfigFileExt = ".cfg"
+
       RelativePhaseOffsets = f"measure_X310_TwinRX_relative_phase_offsets_{CenterFreq:.2e}_{SampleRate:.2e}_"
 
       CorrectedPhaseOffsets = f"measure_X310_TwinRX_corrected_phase_offsets_{CenterFreq:.2e}_{SampleRate:.2e}_"
@@ -215,48 +230,12 @@ blocks:
     coordinate: [224, 28.0]
     rotation: 0
     state: enabled
-- name: tab
-  id: qtgui_tab_widget
-  parameters:
-    alias: ''
-    comment: ''
-    gui_hint: ''
-    label0: Angle of Arrival
-    label1: ''
-    label10: Tab 10
-    label11: Tab 11
-    label12: Tab 12
-    label13: Tab 13
-    label14: Tab 14
-    label15: Tab 15
-    label16: Tab 16
-    label17: Tab 17
-    label18: Tab 18
-    label19: Tab 19
-    label2: Tab 2
-    label3: Tab 3
-    label4: Tab 4
-    label5: Tab 5
-    label6: Tab 6
-    label7: Tab 7
-    label8: Tab 8
-    label9: Tab 9
-    num_tabs: '1'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [456, 12.0]
-    rotation: 0
-    state: enabled
 
 connections:
 - [doa_autocorrelate_0, '0', doa_rootMUSIC_linear_array_0, '0']
-- [doa_phase_correct_hier_1, '0', doa_autocorrelate_0, '0']
-- [doa_phase_correct_hier_1, '1', doa_autocorrelate_0, '1']
+- [doa_phase_correct_hier_1, '4', doa_autocorrelate_0, '4']
 - [doa_rootMUSIC_linear_array_0, '0', doa_qt_compass_0, '0']
-- [doa_tworx_usrp_source_0, '0', doa_phase_correct_hier_1, '0']
-- [doa_tworx_usrp_source_0, '1', doa_phase_correct_hier_1, '1']
+- [doa_tworx_usrp_source_0, '4', doa_phase_correct_hier_1, '4']
 
 metadata:
   file_format: 1

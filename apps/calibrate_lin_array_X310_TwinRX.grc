@@ -67,7 +67,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [107, 149]
+    coordinate: [56, 108.0]
     rotation: 0
     state: true
 - name: blocks_complex_to_magphase_0
@@ -83,7 +83,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1008, 328]
+    coordinate: [960, 328.0]
     rotation: 180
     state: enabled
 - name: doa_autocorrelate_0
@@ -99,10 +99,10 @@ blocks:
     overlap_size: input_variables.OverlapSize
     snapshot_size: input_variables.SnapshotSize
   states:
-    bus_sink: false
+    bus_sink: true
     bus_source: false
     bus_structure: null
-    coordinate: [736, 168]
+    coordinate: [648, 188.0]
     rotation: 0
     state: enabled
 - name: doa_calibrate_lin_array_0
@@ -120,7 +120,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1016, 192]
+    coordinate: [952, 188.0]
     rotation: 0
     state: enabled
 - name: doa_phase_correct_hier_1
@@ -134,10 +134,10 @@ blocks:
     minoutbuf: '0'
     num_ports: input_variables.NumArrayElements
   states:
-    bus_sink: false
-    bus_source: false
+    bus_sink: true
+    bus_source: true
     bus_structure: null
-    coordinate: [520, 168]
+    coordinate: [336, 196.0]
     rotation: 0
     state: enabled
 - name: doa_save_antenna_calib_0
@@ -153,17 +153,17 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [600, 340]
+    coordinate: [648, 324.0]
     rotation: 180
     state: enabled
 - name: doa_tworx_usrp_source_0
   id: doa_tworx_usrp_source
   parameters:
-    addresses: '"addr0=192.168.20.3, addr1=192.168.110.2"'
+    addresses: input_variables.RxAddr
     affinity: ''
     alias: ''
-    antenna: TX/RX
-    bus_structure_source: '[[0,],]'
+    antenna: RX2
+    bus_structure_source: ''
     center_freq: input_variables.CenterFreq
     comment: ''
     gain: input_variables.Gain
@@ -174,9 +174,9 @@ blocks:
     sources: input_variables.NumArrayElements
   states:
     bus_sink: false
-    bus_source: false
+    bus_source: true
     bus_structure: null
-    coordinate: [235, 169]
+    coordinate: [48, 172.0]
     rotation: 0
     state: true
 - name: import
@@ -200,13 +200,13 @@ blocks:
 
       Contains all the user-defined variables.'
     source_code: "# this module will be imported into your flowgraph\nimport os\n\
-      ToneFreq = 1e6\nSampleRate = 10e6\nCenterFreq = 2.45e9\nRxAddr = \"addr=192.168.20.3\"\
-      \nRxAddr1 = \"addr=192.168.110.2\"\nTxAddr = \"addr=192.168.20.3\"\nGain = 60\n\
-      NumArrayElements = 4\nNormSpacing = 0.5\nPilotAngle = 90\nSnapshotSize = 2**11\n\
-      Samples2FindMax = 2**11\nSamples2Avg = 2**11\nOverlapSize = 2**9\nSkipAhead\
-      \ = 2**13\nNumTargets = 1\nPSpectrumLength = 2**10\nhome = os.path.expanduser(\"\
-      ~\")\nDirectoryConfigFiles = os.path.join(home, \"devel/localization_fulbright/config/\"\
-      )\nConfigFileExt = \".cfg\"\nRelativePhaseOffsets = f\"measure_X310_TwinRX_relative_phase_offsets_{CenterFreq:.2e}_{SampleRate:.2e}_\"\
+      ToneFreq = 1e6\nSampleRate = 10e6\nCenterFreq = 2.49e9\nRxAddr = \"addr0=192.168.20.3,addr1=192.168.110.2\"\
+      \nTxAddr = \"addr=192.168.20.3\"\nGain = 60\nNumArrayElements = 4\nNormSpacing\
+      \ = 0.5\nPilotAngle = 83\nSnapshotSize = 2**11\nSamples2FindMax = 2**11\nSamples2Avg\
+      \ = 2**11\nOverlapSize = 2**9\nSkipAhead = 2**13\nNumTargets = 1\nPSpectrumLength\
+      \ = 2**10\nhome = os.path.expanduser(\"~\")\nDirectoryConfigFiles = os.path.join(home,\
+      \ \"devel/localization_fulbright/config/\")\nConfigFileExt = \".cfg\"\nRelativePhaseOffsets\
+      \ = f\"measure_X310_TwinRX_relative_phase_offsets_{CenterFreq:.2e}_{SampleRate:.2e}_\"\
       \nCorrectedPhaseOffsets = f\"measure_X310_TwinRX_corrected_phase_offsets_{CenterFreq:.2e}_{SampleRate:.2e}_\"\
       \nAntennaCalibration = f\"calibration_lin_array_{CenterFreq:.2e}_{SampleRate:.2e}_\"\
       \ \n"
@@ -223,14 +223,8 @@ connections:
 - [blocks_complex_to_magphase_0, '1', doa_save_antenna_calib_0, '1']
 - [doa_autocorrelate_0, '0', doa_calibrate_lin_array_0, '0']
 - [doa_calibrate_lin_array_0, '0', blocks_complex_to_magphase_0, '0']
-- [doa_phase_correct_hier_1, '0', doa_autocorrelate_0, '0']
-- [doa_phase_correct_hier_1, '1', doa_autocorrelate_0, '1']
-- [doa_phase_correct_hier_1, '2', doa_autocorrelate_0, '2']
-- [doa_phase_correct_hier_1, '3', doa_autocorrelate_0, '3']
-- [doa_tworx_usrp_source_0, '0', doa_phase_correct_hier_1, '0']
-- [doa_tworx_usrp_source_0, '1', doa_phase_correct_hier_1, '1']
-- [doa_tworx_usrp_source_0, '2', doa_phase_correct_hier_1, '2']
-- [doa_tworx_usrp_source_0, '3', doa_phase_correct_hier_1, '3']
+- [doa_phase_correct_hier_1, '4', doa_autocorrelate_0, '4']
+- [doa_tworx_usrp_source_0, '4', doa_phase_correct_hier_1, '4']
 
 metadata:
   file_format: 1

@@ -27,7 +27,7 @@ options:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [576, 40]
+    coordinate: [34, 15]
     rotation: 0
     state: enabled
 
@@ -42,19 +42,19 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [824, 112]
+    coordinate: [242, 107]
     rotation: 0
     state: enabled
 - name: vert_horz
   id: variable
   parameters:
     comment: ''
-    value: '"vert"'
+    value: '"horz"'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [363, 166]
+    coordinate: [37, 112]
     rotation: 0
     state: true
 - name: doa_findmax_and_save_0
@@ -67,10 +67,10 @@ blocks:
     num_inputs: input_variables.NumArrayElements-1
     samples_to_findmax: input_variables.Samples2FindMax
   states:
-    bus_sink: false
+    bus_sink: true
     bus_source: false
     bus_structure: null
-    coordinate: [940, 324]
+    coordinate: [640, 244.0]
     rotation: 0
     state: enabled
 - name: doa_twinrx_phase_offset_est_0
@@ -84,20 +84,20 @@ blocks:
     n_skip_ahead: input_variables.SkipAhead
     num_inputs: input_variables.NumArrayElements
   states:
-    bus_sink: false
-    bus_source: false
+    bus_sink: true
+    bus_source: true
     bus_structure: null
-    coordinate: [616, 312]
+    coordinate: [328, 244.0]
     rotation: 0
     state: enabled
 - name: doa_tworx_usrp_source_0
   id: doa_tworx_usrp_source
   parameters:
-    addresses: '"addr0=192.168.20.3, addr1=192.168.110.2"'
+    addresses: input_variables.RxAddr
     affinity: ''
     alias: ''
-    antenna: RX2
-    bus_structure_source: '[[0,],]'
+    antenna: TX/RX
+    bus_structure_source: ''
     center_freq: input_variables.CenterFreq
     comment: ''
     gain: input_variables.Gain
@@ -108,9 +108,9 @@ blocks:
     sources: input_variables.NumArrayElements
   states:
     bus_sink: false
-    bus_source: false
+    bus_source: true
     bus_structure: null
-    coordinate: [332, 313]
+    coordinate: [40, 220.0]
     rotation: 0
     state: true
 - name: import
@@ -123,7 +123,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [824, 40]
+    coordinate: [368, 12.0]
     rotation: 0
     state: enabled
 - name: input_variables
@@ -141,9 +141,9 @@ blocks:
 
       SampleRate = 10e6
 
-      CenterFreq = 2450000000
+      CenterFreq = 2490000000
 
-      RxAddr = "addr=192.168.20.3"
+      RxAddr = "addr0=192.168.20.3, addr1=192.168.110.2"
 
       TxAddr = "addr=192.168.20.3"
 
@@ -186,18 +186,13 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [394, 34]
+    coordinate: [245, 19]
     rotation: 0
     state: enabled
 
 connections:
-- [doa_twinrx_phase_offset_est_0, '0', doa_findmax_and_save_0, '0']
-- [doa_twinrx_phase_offset_est_0, '1', doa_findmax_and_save_0, '1']
-- [doa_twinrx_phase_offset_est_0, '2', doa_findmax_and_save_0, '2']
-- [doa_tworx_usrp_source_0, '0', doa_twinrx_phase_offset_est_0, '0']
-- [doa_tworx_usrp_source_0, '1', doa_twinrx_phase_offset_est_0, '1']
-- [doa_tworx_usrp_source_0, '2', doa_twinrx_phase_offset_est_0, '2']
-- [doa_tworx_usrp_source_0, '3', doa_twinrx_phase_offset_est_0, '3']
+- [doa_twinrx_phase_offset_est_0, '3', doa_findmax_and_save_0, '3']
+- [doa_tworx_usrp_source_0, '4', doa_twinrx_phase_offset_est_0, '4']
 
 metadata:
   file_format: 1
